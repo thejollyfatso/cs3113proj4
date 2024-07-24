@@ -10,14 +10,14 @@ constexpr char SPRITESHEET_FILEPATH[] = "assets/george_0.png",
 
 unsigned int LEVEL_DATA[] =
 {
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-    3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,
-    3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+    66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    86, 87, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+    106, 107, 27, 28, 27, 1, 1, 1, 1, 2, 2, 2, 2, 2,
+    126, 127, 128, 127, 127, 2, 2, 2, 2, 2, 2, 2, 2, 2
 };
 
 LevelA::~LevelA()
@@ -31,8 +31,9 @@ LevelA::~LevelA()
 
 void LevelA::initialise()
 {
-    GLuint map_texture_id = Utility::load_texture("assets/tileset.png");
-    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_DATA, map_texture_id, 1.0f, 4, 1);
+    // GLuint map_texture_id = Utility::load_texture("assets/tileset.png");
+    GLuint map_texture_id = Utility::load_texture("assets/Fantasy Swamp Forest/Free/Terrain_and_Props.png");
+    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_DATA, map_texture_id, 1.0f, 20, 34);
     
     GLuint player_texture_id = Utility::load_texture(SPRITESHEET_FILEPATH);
 
