@@ -4,7 +4,7 @@
 #define LEVEL_WIDTH 14
 #define LEVEL_HEIGHT 8
 
-constexpr char SPRITESHEET_FILEPATH[] = "assets/george_0.png",
+constexpr char SPRITESHEET_FILEPATH[] = "assets/Wizard Pack/Run.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
            ENEMY_FILEPATH[]       = "assets/soph.png";
 
@@ -37,14 +37,6 @@ void LevelA::initialise()
     
     GLuint player_texture_id = Utility::load_texture(SPRITESHEET_FILEPATH);
 
-    int player_walking_animation[4][4] =
-    {
-        { 1, 5, 9, 13 },  // for George to move to the left,
-        { 3, 7, 11, 15 }, // for George to move to the right,
-        { 2, 6, 10, 14 }, // for George to move upwards,
-        { 0, 4, 8, 12 }   // for George to move downwards
-    };
-
     glm::vec3 acceleration = glm::vec3(0.0f, -4.81f, 0.0f);
 
     m_game_state.player = new Entity(
@@ -52,7 +44,6 @@ void LevelA::initialise()
         5.0f,                      // speed
         acceleration,              // acceleration
         5.0f,                      // jumping power
-        player_walking_animation,  // animation index sets
         0.0f,                      // animation time
         4,                         // animation frame amount
         0,                         // current animation index

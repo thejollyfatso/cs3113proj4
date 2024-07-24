@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <map>
+#include <vector>
 #include "Map.h"
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
@@ -15,9 +17,6 @@ class Entity
 {
 private:
     bool m_is_active = true;
-    
-    int m_walking[4][4]; // 4x4 array for walking animations
-
     
     EntityType m_entity_type;
     AIType     m_ai_type;
@@ -62,7 +61,7 @@ public:
 
     // ————— METHODS ————— //
     Entity();
-    Entity(GLuint texture_id, float speed, glm::vec3 acceleration, float jump_power, int walking[4][4], float animation_time,
+    Entity(GLuint texture_id, float speed, glm::vec3 acceleration, float jump_power, float animation_time,
         int animation_frames, int animation_index, int animation_cols,
            int animation_rows, float width, float height, EntityType EntityType);
     Entity(GLuint texture_id, float speed, float width, float height, EntityType EntityType); // Simpler constructor
@@ -88,17 +87,16 @@ public:
     
     void normalise_movement() { m_movement = glm::normalize(m_movement); }
 
-    void face_left() { m_animation_indices = m_walking[LEFT]; }
-    void face_right() { m_animation_indices = m_walking[RIGHT]; }
-    void face_up() { m_animation_indices = m_walking[UP]; }
-    void face_down() { m_animation_indices = m_walking[DOWN]; }
+    void face_left() { if (m_scale.x < 0) m_scale.x *= -1; }
+    void face_right() { if (m_scale.x > 0) m_scale.x *= -1; }
 
     void move_left() { m_movement.x = -1.0f; face_left(); }
     void move_right() { m_movement.x = 1.0f;  face_right(); }
-    void move_up() { m_movement.y = 1.0f;  face_up(); }
-    void move_down() { m_movement.y = -1.0f; face_down(); }
     
     void const jump() { m_is_jumping = true; }
+
+    void set_animation(std::string animation_name, int* indices, int frames, int cols, int rows, int frame_width, int frame_height);
+    void switch_animation(std::string animation_name);
 
     // ————— GETTERS ————— //
     EntityType const get_entity_type()    const { return m_entity_type;   };
@@ -139,17 +137,6 @@ public:
     void const set_width(float new_width) {m_width = new_width; }
     void const set_height(float new_height) {m_height = new_height; }
 
-    // Setter for m_walking
-    void set_walking(int walking[4][4])
-    {
-        for (int i = 0; i < 4; ++i)
-        {
-            for (int j = 0; j < 4; ++j)
-            {
-                m_walking[i][j] = walking[i][j];
-            }
-        }
-    }
 };
 
 #endif // ENTITY_H
