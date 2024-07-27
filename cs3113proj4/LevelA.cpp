@@ -15,7 +15,7 @@ unsigned int LEVEL_DATA[] =
     110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    86, 87, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+    86, 87, 86, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
     106, 107, 27, 28, 27, 1, 1, 1, 1, 2, 2, 2, 2, 2,
     126, 127, 128, 127, 127, 2, 2, 2, 2, 2, 2, 2, 2, 2
 };
@@ -45,15 +45,23 @@ void LevelA::initialise()
         acceleration,              // acceleration
         5.0f,                      // jumping power
         0.0f,                      // animation time
-        4,                         // animation frame amount
+        8,                         // animation frame amount
         0,                         // current animation index
-        4,                         // animation column amount
-        4,                         // animation row amount
+        8,                         // animation column amount
+        8,                         // animation row amount
         1.0f,                      // width
         1.0f,                       // height
         PLAYER
     );
     
+    // set animations
+    int walking_animation[] = { 57, 58, 59, 60, 61, 62, 63, 64 };
+    int idle_animation[] = { 41, 42, 43, 44, 45, 46 };
+
+    m_game_state.player->set_animation("walking", walking_animation, 8, 8, 8, 231, 231);
+    m_game_state.player->set_animation("idle", idle_animation, 6, 4, 2, 231, 231);
+    m_game_state.player->switch_animation("idle"); // start with idle
+
     m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
 
     // Jumping
