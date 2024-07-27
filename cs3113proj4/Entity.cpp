@@ -92,6 +92,7 @@ void Entity::set_animation(std::string animation_name, int* indices, int frames)
 }
 
 void Entity::switch_animation(std::string animation_name, bool locked) {
+    if (locked) { m_animation_index = 0; }
     if (!m_animation_lock) {
         m_animation_lock = locked;
         if (m_animations.find(animation_name) != m_animations.end()) {
@@ -117,6 +118,9 @@ void Entity::draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint textu
     // Apply the margin to the UV coordinates
     float margin_u = m_margin / (float)m_animation_cols;
     float margin_v = m_margin / (float)m_animation_rows;
+    // DEBUG: negate margins
+    margin_u = 0.0f;
+    margin_v = 0.0f;
 
     // Adjusted UV coordinates with margin
     float tex_coords[] = {
@@ -154,34 +158,17 @@ bool const Entity::check_collision(Entity* other) const {
     return x_distance < 0.0f && y_distance < 0.0f;
 }
 
-void const Entity::check_collision_y(Entity* collidable_entities, int collidable_entity_count) {
-    for (int i = 0; i < collidable_entity_count; i++) {
-        Entity* collidable_entity = &collidable_entities[i];
-
-        if (check_collision(collidable_entity)) {
-            float y_distance = fabs(m_position.y - collidable_entity->m_position.y);
-            float y_overlap = fabs(y_distance - (m_height / 2.0f) - (collidable_entity->m_height / 2.0f));
-            if (m_velocity.y > 0) {
-                m_position.y -= y_overlap;
-                m_velocity.y = 0;
-                m_collided_top = true;
-            }
-            else if (m_velocity.y < 0) {
-                m_position.y += y_overlap;
-                m_velocity.y = 0;
-                m_collided_bottom = true;
-            }
-        }
-    }
-}
-
 void const Entity::check_collision_x(Entity* collidable_entities, int collidable_entity_count) {
+    float adjusted_width = m_width - m_margin * 2;
+
     for (int i = 0; i < collidable_entity_count; i++) {
         Entity* collidable_entity = &collidable_entities[i];
+
+        float other_adjusted_width = collidable_entity->m_width - collidable_entity->m_margin * 2;
 
         if (check_collision(collidable_entity)) {
             float x_distance = fabs(m_position.x - collidable_entity->m_position.x);
-            float x_overlap = fabs(x_distance - (m_width / 2.0f) - (collidable_entity->m_width / 2.0f));
+            float x_overlap = fabs(x_distance - (adjusted_width / 2.0f) - (other_adjusted_width / 2.0f));
             if (m_velocity.x > 0) {
                 m_position.x -= x_overlap;
                 m_velocity.x = 0;
@@ -196,14 +183,42 @@ void const Entity::check_collision_x(Entity* collidable_entities, int collidable
     }
 }
 
-void const Entity::check_collision_y(Map* map) {
-    glm::vec3 top = glm::vec3(m_position.x, m_position.y + (m_height / 2), m_position.z);
-    glm::vec3 top_left = glm::vec3(m_position.x - (m_width / 2), m_position.y + (m_height / 2), m_position.z);
-    glm::vec3 top_right = glm::vec3(m_position.x + (m_width / 2), m_position.y + (m_height / 2), m_position.z);
+void const Entity::check_collision_y(Entity* collidable_entities, int collidable_entity_count) {
+    float adjusted_height = m_height - m_margin * 2;
 
-    glm::vec3 bottom = glm::vec3(m_position.x, m_position.y - (m_height / 2), m_position.z);
-    glm::vec3 bottom_left = glm::vec3(m_position.x - (m_width / 2), m_position.y - (m_height / 2), m_position.z);
-    glm::vec3 bottom_right = glm::vec3(m_position.x + (m_width / 2), m_position.y - (m_height / 2), m_position.z);
+    for (int i = 0; i < collidable_entity_count; i++) {
+        Entity* collidable_entity = &collidable_entities[i];
+
+        float other_adjusted_height = collidable_entity->m_height - collidable_entity->m_margin * 2;
+
+        if (check_collision(collidable_entity)) {
+            float y_distance = fabs(m_position.y - collidable_entity->m_position.y);
+            float y_overlap = fabs(y_distance - (adjusted_height / 2.0f) - (other_adjusted_height / 2.0f));
+            if (m_velocity.y > 0) {
+                m_position.y -= y_overlap;
+                m_velocity.y = 0;
+                m_collided_top = true;
+            }
+            else if (m_velocity.y < 0) {
+                m_position.y += y_overlap;
+                m_velocity.y = 0;
+                m_collided_bottom = true;
+            }
+        }
+    }
+}
+
+void const Entity::check_collision_y(Map* map) {
+    float adjusted_height = m_height - m_margin * 2;
+    float adjusted_width = m_width - m_margin * 2;
+
+    glm::vec3 top = glm::vec3(m_position.x, m_position.y + (adjusted_height / 2), m_position.z);
+    glm::vec3 top_left = glm::vec3(m_position.x - (adjusted_width / 2), m_position.y + (adjusted_height / 2), m_position.z);
+    glm::vec3 top_right = glm::vec3(m_position.x + (adjusted_width / 2), m_position.y + (adjusted_height / 2), m_position.z);
+
+    glm::vec3 bottom = glm::vec3(m_position.x, m_position.y - (adjusted_height / 2), m_position.z);
+    glm::vec3 bottom_left = glm::vec3(m_position.x - (adjusted_width / 2), m_position.y - (adjusted_height / 2), m_position.z);
+    glm::vec3 bottom_right = glm::vec3(m_position.x + (adjusted_width / 2), m_position.y - (adjusted_height / 2), m_position.z);
 
     float penetration_x = 0;
     float penetration_y = 0;
@@ -242,8 +257,11 @@ void const Entity::check_collision_y(Map* map) {
 }
 
 void const Entity::check_collision_x(Map* map) {
-    glm::vec3 left = glm::vec3(m_position.x - (m_width / 2), m_position.y, m_position.z);
-    glm::vec3 right = glm::vec3(m_position.x + (m_width / 2), m_position.y, m_position.z);
+    float adjusted_height = m_height - m_margin * 2;
+    float adjusted_width = m_width - m_margin * 2;
+
+    glm::vec3 left = glm::vec3(m_position.x - (adjusted_width / 2), m_position.y, m_position.z);
+    glm::vec3 right = glm::vec3(m_position.x + (adjusted_width / 2), m_position.y, m_position.z);
 
     float penetration_x = 0;
     float penetration_y = 0;
