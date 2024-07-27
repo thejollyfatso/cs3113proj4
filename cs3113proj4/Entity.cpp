@@ -87,12 +87,8 @@ Entity::Entity(GLuint texture_id, float speed, float width, float height, Entity
 
 Entity::~Entity() {}
 
-void Entity::set_animation(std::string animation_name, int* indices, int frames, int cols, int rows, int frame_width, int frame_height) {
+void Entity::set_animation(std::string animation_name, int* indices, int frames) {
     m_animations[animation_name] = std::vector<int>(indices, indices + frames);
-    //m_animation_cols = cols;
-    //m_animation_rows = rows;
-    m_frame_width = frame_width;
-    m_frame_height = frame_height;
 }
 
 void Entity::switch_animation(std::string animation_name) {
@@ -100,8 +96,6 @@ void Entity::switch_animation(std::string animation_name) {
         m_current_animation = animation_name;
         m_animation_indices = m_animations[animation_name].data();
         m_animation_frames = m_animations[animation_name].size();
-        //m_animation_index = 0;
-        //m_animation_time = 0.0f;
     }
 }
 
@@ -266,7 +260,6 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     if (m_entity_type == ENEMY) ai_activate(player);
 
     if (m_animation_indices != nullptr && !m_current_animation.empty()) {
-        //if (glm::length(m_movement) != 0) {
             m_animation_time += delta_time;
             float frames_per_second = (float)1 / SECONDS_PER_FRAME;
 
@@ -278,7 +271,6 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
                     m_animation_index = 0; // Loop back to the first frame
                 }
             }
-        //}
     }
 
     m_velocity.x = m_movement.x * m_speed;

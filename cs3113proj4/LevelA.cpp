@@ -31,7 +31,6 @@ LevelA::~LevelA()
 
 void LevelA::initialise()
 {
-    // GLuint map_texture_id = Utility::load_texture("assets/tileset.png");
     GLuint map_texture_id = Utility::load_texture("assets/Fantasy Swamp Forest/Free/Terrain_and_Props.png");
     m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_DATA, map_texture_id, 1.0f, 20, 34);
     
@@ -58,8 +57,8 @@ void LevelA::initialise()
     int run_animation[] = { 56, 57, 58, 59, 60, 61, 62, 63 };
     int idle_animation[] = { 40, 41, 42, 43, 44, 45 };
 
-    m_game_state.player->set_animation("run", run_animation, 8, 8, 8, 231, 231);
-    m_game_state.player->set_animation("idle", idle_animation, 6, 4, 2, 231, 231);
+    m_game_state.player->set_animation("run", run_animation, 8);
+    m_game_state.player->set_animation("idle", idle_animation, 6);
     m_game_state.player->switch_animation("idle"); // start with idle
 
     m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
@@ -77,7 +76,6 @@ void LevelA::initialise()
     int e_idle_animation[] = { 16, 17, 18, 19 };
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
-    //m_game_state.enemies[i] =  Entity(enemy_texture_id, 1.0f, 1.0f, 1.0f, ENEMY, GUARD, IDLE);
 		m_game_state.enemies[i] =  Entity(
 			enemy_texture_id,         // texture id
 			1.0f,                      // speed
@@ -94,8 +92,8 @@ void LevelA::initialise()
 			GUARD,
 			IDLE
 		);
-		m_game_state.enemies[i].set_animation("run", e_run_animation, 8, 8, 8, 231, 231);
-		m_game_state.enemies[i].set_animation("idle", e_idle_animation, 4, 4, 2, 231, 231);
+		m_game_state.enemies[i].set_animation("run", e_run_animation, 8);
+		m_game_state.enemies[i].set_animation("idle", e_idle_animation, 4);
 		m_game_state.enemies[i].switch_animation("idle"); // start with idle
     }
 

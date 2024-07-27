@@ -49,8 +49,6 @@ private:
 
     std::map<std::string, std::vector<int>> m_animations; // Map of animations
     std::string m_current_animation; // Current animation name
-    int m_frame_width; // Width of each animation frame
-    int m_frame_height; // Height of each animation frame
 
     float m_width = 1.0f,
           m_height = 1.0f;
@@ -103,7 +101,7 @@ public:
     
     void const jump() { m_is_jumping = true; }
 
-    void set_animation(std::string animation_name, int* indices, int frames, int cols, int rows, int frame_width, int frame_height);
+    void set_animation(std::string animation_name, int* indices, int frames);
     void switch_animation(std::string animation_name);
 
     // ————— GETTERS ————— //
