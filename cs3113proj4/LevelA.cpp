@@ -4,7 +4,7 @@
 #define LEVEL_WIDTH 14
 #define LEVEL_HEIGHT 8
 
-constexpr char SPRITESHEET_FILEPATH[] = "assets/Wizard Pack/Run.png",
+constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
            ENEMY_FILEPATH[]       = "assets/soph.png";
 
@@ -55,10 +55,10 @@ void LevelA::initialise()
     );
     
     // set animations
-    int walking_animation[] = { 57, 58, 59, 60, 61, 62, 63, 64 };
-    int idle_animation[] = { 41, 42, 43, 44, 45, 46 };
+    int run_animation[] = { 56, 57, 58, 59, 60, 61, 62, 63 };
+    int idle_animation[] = { 40, 41, 42, 43, 44, 45 };
 
-    m_game_state.player->set_animation("walking", walking_animation, 8, 8, 8, 231, 231);
+    m_game_state.player->set_animation("run", run_animation, 8, 8, 8, 231, 231);
     m_game_state.player->set_animation("idle", idle_animation, 6, 4, 2, 231, 231);
     m_game_state.player->switch_animation("idle"); // start with idle
 
