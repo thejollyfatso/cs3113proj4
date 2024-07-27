@@ -58,9 +58,13 @@ void LevelA::initialise()
     // set animations
     int run_animation[] = { 56, 57, 58, 59, 60, 61, 62, 63 };
     int idle_animation[] = { 40, 41, 42, 43, 44, 45 };
+    int counter_animation[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+    int attack_animation[] = { 8, 9, 10, 11, 12, 13, 14, 15 };
 
     m_game_state.player->set_animation("run", run_animation, 8);
     m_game_state.player->set_animation("idle", idle_animation, 6);
+    m_game_state.player->set_animation("counter", counter_animation, 8);
+    m_game_state.player->set_animation("attack", attack_animation, 8);
     m_game_state.player->switch_animation("idle"); // start with idle
 
     m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
