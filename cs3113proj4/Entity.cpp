@@ -111,10 +111,25 @@ void Entity::draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint textu
     float width = 1.0f / (float)m_animation_cols;
     float height = 1.0f / (float)m_animation_rows;
 
+    // Apply the margin to the UV coordinates
+    float margin_u = m_margin / (float)m_animation_cols;
+    float margin_v = m_margin / (float)m_animation_rows;
+
+    // Adjusted UV coordinates with margin
+    float tex_coords[] = {
+        u_coord + margin_u,         v_coord + height - margin_v,
+        u_coord + width - margin_u, v_coord + height - margin_v,
+        u_coord + width - margin_u, v_coord + margin_v,
+        u_coord + margin_u,         v_coord + height - margin_v,
+        u_coord + width - margin_u, v_coord + margin_v,
+        u_coord + margin_u,         v_coord + margin_v
+    };
+    /*
     float tex_coords[] = {
         u_coord, v_coord + height, u_coord + width, v_coord + height, u_coord + width, v_coord,
         u_coord, v_coord + height, u_coord + width, v_coord, u_coord, v_coord
     };
+	*/
 
     float vertices[] = {
         -0.5, -0.5, 0.5, -0.5, 0.5, 0.5,

@@ -52,6 +52,8 @@ void LevelA::initialise()
         1.0f,                       // height
         PLAYER
     );
+
+    m_game_state.player->set_margin(1.0f / 3.3f); // trim sprite
     
     // set animations
     int run_animation[] = { 56, 57, 58, 59, 60, 61, 62, 63 };
@@ -92,6 +94,7 @@ void LevelA::initialise()
 			GUARD,
 			IDLE
 		);
+		m_game_state.enemies[i].set_margin(1.0f / 3.1f); // trim sprite
 		m_game_state.enemies[i].set_animation("run", e_run_animation, 8);
 		m_game_state.enemies[i].set_animation("idle", e_idle_animation, 4);
 		m_game_state.enemies[i].switch_animation("idle"); // start with idle
