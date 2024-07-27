@@ -61,6 +61,18 @@ Entity::Entity(GLuint texture_id, float speed, glm::vec3 acceleration, float jum
     face_right();
 }
 
+Entity::Entity(GLuint texture_id, float speed, glm::vec3 acceleration, float jump_power, float animation_time,
+    int animation_frames, int animation_index, int animation_cols,
+    int animation_rows, float width, float height, EntityType entity_type, AIType ai_type, AIState ai_state)
+    : m_position(0.0f), m_movement(0.0f), m_scale(1.0f, 1.0f, 0.0f), m_model_matrix(1.0f),
+    m_speed(speed), m_acceleration(acceleration), m_jumping_power(jump_power), m_animation_cols(animation_cols),
+    m_animation_frames(animation_frames), m_animation_index(animation_index),
+    m_animation_rows(animation_rows), m_animation_indices(nullptr),
+    m_animation_time(animation_time), m_texture_id(texture_id), m_velocity(0.0f),
+    m_width(width), m_height(height), m_entity_type(entity_type), m_ai_type(ai_type), m_ai_state(ai_state) {
+    face_right();
+}
+
 Entity::Entity(GLuint texture_id, float speed, float width, float height, EntityType entity_type)
     : m_position(0.0f), m_movement(0.0f), m_scale(1.0f, 1.0f, 0.0f), m_model_matrix(1.0f),
     m_speed(speed), m_animation_cols(0), m_animation_frames(0), m_animation_index(0),
