@@ -124,12 +124,6 @@ void Entity::draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint textu
         u_coord + width - margin_u, v_coord + margin_v,
         u_coord + margin_u,         v_coord + margin_v
     };
-    /*
-    float tex_coords[] = {
-        u_coord, v_coord + height, u_coord + width, v_coord + height, u_coord + width, v_coord,
-        u_coord, v_coord + height, u_coord + width, v_coord, u_coord, v_coord
-    };
-	*/
 
     float vertices[] = {
         -0.5, -0.5, 0.5, -0.5, 0.5, 0.5,
