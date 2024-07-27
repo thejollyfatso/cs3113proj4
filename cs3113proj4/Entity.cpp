@@ -88,8 +88,8 @@ void Entity::switch_animation(std::string animation_name) {
         m_current_animation = animation_name;
         m_animation_indices = m_animations[animation_name].data();
         m_animation_frames = m_animations[animation_name].size();
-        m_animation_index = 0;
-        m_animation_time = 0.0f;
+        //m_animation_index = 0;
+        //m_animation_time = 0.0f;
     }
 }
 
@@ -244,6 +244,7 @@ void const Entity::check_collision_x(Map* map) {
 
 void Entity::update(float delta_time, Entity* player, Entity* collidable_entities, int collidable_entity_count, Map* map) {
     if (!m_is_active) return;
+    switch_animation("idle");
 
     m_collided_top = false;
     m_collided_bottom = false;
@@ -253,7 +254,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     if (m_entity_type == ENEMY) ai_activate(player);
 
     if (m_animation_indices != nullptr && !m_current_animation.empty()) {
-        if (glm::length(m_movement) != 0) {
+        //if (glm::length(m_movement) != 0) {
             m_animation_time += delta_time;
             float frames_per_second = (float)1 / SECONDS_PER_FRAME;
 
@@ -265,7 +266,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
                     m_animation_index = 0; // Loop back to the first frame
                 }
             }
-        }
+        //}
     }
 
     m_velocity.x = m_movement.x * m_speed;

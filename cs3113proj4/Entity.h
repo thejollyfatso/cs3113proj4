@@ -62,7 +62,7 @@ private:
 
 public:
     // ————— STATIC VARIABLES ————— //
-    static constexpr int SECONDS_PER_FRAME = 4;
+    static constexpr int SECONDS_PER_FRAME = 12;
 
     // ————— METHODS ————— //
     Entity();
@@ -95,8 +95,8 @@ public:
     void face_left() { if (m_scale.x < 0) m_scale.x *= -1; }
     void face_right() { if (m_scale.x > 0) m_scale.x *= -1; }
 
-    void move_left() { m_movement.x = -1.0f; face_left(); }
-    void move_right() { m_movement.x = 1.0f;  face_right(); }
+    void move_left() { switch_animation("run");  m_movement.x = -1.0f; face_left(); }
+    void move_right() { switch_animation("run");  m_movement.x = 1.0f;  face_right(); }
     
     void const jump() { m_is_jumping = true; }
 
