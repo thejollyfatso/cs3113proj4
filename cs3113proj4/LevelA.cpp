@@ -54,10 +54,9 @@ void LevelA::initialise()
     );
 
     // enlarge
-    glm::vec3 new_scale = { 2.0f, 2.0f, 0.0f };
+    glm::vec3 new_scale = { 4.0f, 4.0f, 0.0f };
     m_game_state.player->set_scale(new_scale);
-    m_game_state.player->set_margin(2.0f / 3.3f); // trim sprite
-    //m_game_state.player->set_margin(1.0f / 3.3f); // trim sprite
+    m_game_state.player->set_margin(1.0f / 3.3f); // trim sprite
     
     // set animations
     int run_animation[] = { 56, 57, 58, 59, 60, 61, 62, 63 };
@@ -102,14 +101,15 @@ void LevelA::initialise()
 			GUARD,
 			IDLE
 		);
-		m_game_state.enemies[i].set_margin(1.0f / 3.1f); // trim sprite
+		m_game_state.enemies[i].set_scale(new_scale);
+		m_game_state.enemies[i].set_margin(-1.0f / 6.0f); // trim sprite
 		m_game_state.enemies[i].set_animation("run", e_run_animation, 8);
 		m_game_state.enemies[i].set_animation("idle", e_idle_animation, 4);
 		m_game_state.enemies[i].switch_animation("idle", false); // start with idle
     }
 
 
-    m_game_state.enemies[0].set_position(glm::vec3(8.0f, 0.0f, 0.0f));
+    m_game_state.enemies[0].set_position(glm::vec3(8.0f, 6.0f, 0.0f));
     m_game_state.enemies[0].set_movement(glm::vec3(0.0f));
     m_game_state.enemies[0].set_acceleration(glm::vec3(0.0f, -9.81f, 0.0f));
 
