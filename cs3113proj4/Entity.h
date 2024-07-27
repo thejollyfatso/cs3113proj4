@@ -50,6 +50,8 @@ private:
     std::map<std::string, std::vector<int>> m_animations; // Map of animations
     std::string m_current_animation; // Current animation name
 
+    bool m_animation_lock = false; // Will be used to prevent animation cancelling
+
     float m_margin = 0.0f; // The margin to trim from the UV coordinates for visual clarity in collisions
 
     float m_width = 1.0f,
@@ -98,13 +100,13 @@ public:
     void face_left() { if (m_scale.x < 0) m_scale.x *= -1; }
     void face_right() { if (m_scale.x > 0) m_scale.x *= -1; }
 
-    void move_left() { switch_animation("run");  m_movement.x = -1.0f; face_left(); }
-    void move_right() { switch_animation("run");  m_movement.x = 1.0f;  face_right(); }
+    void move_left() { switch_animation("run", false);  m_movement.x = -1.0f; face_left(); }
+    void move_right() { switch_animation("run", false);  m_movement.x = 1.0f;  face_right(); }
     
     void const jump() { m_is_jumping = true; }
 
     void set_animation(std::string animation_name, int* indices, int frames);
-    void switch_animation(std::string animation_name);
+    void switch_animation(std::string animation_name, bool locked);
 
     // ————— GETTERS ————— //
     EntityType const get_entity_type()    const { return m_entity_type;   };

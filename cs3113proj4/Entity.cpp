@@ -91,11 +91,14 @@ void Entity::set_animation(std::string animation_name, int* indices, int frames)
     m_animations[animation_name] = std::vector<int>(indices, indices + frames);
 }
 
-void Entity::switch_animation(std::string animation_name) {
-    if (m_animations.find(animation_name) != m_animations.end()) {
-        m_current_animation = animation_name;
-        m_animation_indices = m_animations[animation_name].data();
-        m_animation_frames = m_animations[animation_name].size();
+void Entity::switch_animation(std::string animation_name, bool locked) {
+    if (!m_animation_lock) {
+        m_animation_lock = locked;
+        if (m_animations.find(animation_name) != m_animations.end()) {
+            m_current_animation = animation_name;
+            m_animation_indices = m_animations[animation_name].data();
+            m_animation_frames = m_animations[animation_name].size();
+        }
     }
 }
 
@@ -259,7 +262,7 @@ void const Entity::check_collision_x(Map* map) {
 
 void Entity::update(float delta_time, Entity* player, Entity* collidable_entities, int collidable_entity_count, Map* map) {
     if (!m_is_active) return;
-    switch_animation("idle");
+    switch_animation("idle", false);
 
     m_collided_top = false;
     m_collided_bottom = false;
@@ -278,6 +281,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
 
                 if (m_animation_index >= m_animation_frames) {
                     m_animation_index = 0; // Loop back to the first frame
+                    m_animation_lock = false;
                 }
             }
     }
