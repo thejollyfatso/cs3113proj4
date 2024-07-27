@@ -103,7 +103,7 @@ public:
     void move_left() { switch_animation("run", false);  m_movement.x = -1.0f; face_left(); }
     void move_right() { switch_animation("run", false);  m_movement.x = 1.0f;  face_right(); }
     
-    void const jump() { m_is_jumping = true; }
+    void const jump() { switch_animation("jump", true);  m_is_jumping = true; }
 
     void set_animation(std::string animation_name, int* indices, int frames);
     void switch_animation(std::string animation_name, bool locked);
