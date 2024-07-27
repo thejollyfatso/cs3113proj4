@@ -48,12 +48,16 @@ void LevelA::initialise()
         0,                         // current animation index
         8,                         // animation column amount
         8,                         // animation row amount
-        1.0f,                      // width
-        1.0f,                       // height
+        2.0f,                      // width
+        2.0f,                       // height
         PLAYER
     );
 
-    m_game_state.player->set_margin(1.0f / 3.3f); // trim sprite
+    // enlarge
+    glm::vec3 new_scale = { 2.0f, 2.0f, 0.0f };
+    m_game_state.player->set_scale(new_scale);
+    m_game_state.player->set_margin(2.0f / 3.3f); // trim sprite
+    //m_game_state.player->set_margin(1.0f / 3.3f); // trim sprite
     
     // set animations
     int run_animation[] = { 56, 57, 58, 59, 60, 61, 62, 63 };

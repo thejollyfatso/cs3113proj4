@@ -329,6 +329,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
 
     m_model_matrix = glm::mat4(1.0f);
     m_model_matrix = glm::translate(m_model_matrix, m_position);
+    m_model_matrix = glm::scale(m_model_matrix, m_scale); // DEBUG
 }
 
 void Entity::render(ShaderProgram* program) {
