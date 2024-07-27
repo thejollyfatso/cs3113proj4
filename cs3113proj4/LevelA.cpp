@@ -6,7 +6,7 @@
 
 constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
-           ENEMY_FILEPATH[]       = "assets/soph.png";
+           ENEMY_FILEPATH[]       = "assets/enemy_spritesheet.png";
 
 unsigned int LEVEL_DATA[] =
 {
@@ -73,9 +73,30 @@ void LevelA::initialise()
 
     m_game_state.enemies = new Entity[ENEMY_COUNT];
 
+    int e_run_animation[] = { 24, 25, 26, 27, 28, 29, 30, 31 };
+    int e_idle_animation[] = { 16, 17, 18, 19 };
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
-    m_game_state.enemies[i] =  Entity(enemy_texture_id, 1.0f, 1.0f, 1.0f, ENEMY, GUARD, IDLE);
+    //m_game_state.enemies[i] =  Entity(enemy_texture_id, 1.0f, 1.0f, 1.0f, ENEMY, GUARD, IDLE);
+		m_game_state.enemies[i] =  Entity(
+			enemy_texture_id,         // texture id
+			1.0f,                      // speed
+			acceleration,              // acceleration
+			5.0f,                      // jumping power
+			0.0f,                      // animation time
+			8,                         // animation frame amount
+			0,                         // current animation index
+			8,                         // animation column amount
+			5,                         // animation row amount
+			1.0f,                      // width
+			1.0f,                       // height
+			ENEMY,
+			GUARD,
+			IDLE
+		);
+		m_game_state.enemies[i].set_animation("run", e_run_animation, 8, 8, 8, 231, 231);
+		m_game_state.enemies[i].set_animation("idle", e_idle_animation, 4, 4, 2, 231, 231);
+		m_game_state.enemies[i].switch_animation("idle"); // start with idle
     }
 
 
