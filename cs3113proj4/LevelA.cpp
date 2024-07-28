@@ -76,7 +76,7 @@ void LevelA::initialise()
 
     m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
 
-    // DEBUG first hitbox
+    // Player Hitboxes
     GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
     m_game_state.player_hitbox = new Hitbox(hitbox_texture_id, m_game_state.player);
     glm::vec3 hb_scale = { 1.0f, 1.0f, 1.0f };
@@ -86,7 +86,10 @@ void LevelA::initialise()
     hb_offset = { 0.8f, 0.6f, 0.0f };
     m_game_state.player_hitbox->add_hitdata("counter", hb_scale, hb_offset);
     m_game_state.player->set_hitbox(m_game_state.player_hitbox);
-    m_game_state.player_hitbox->set_hidden(false);
+    m_game_state.player->get_hitbox()->set_hidden(false);
+
+    GLuint hurtbox_texture_id = Utility::load_texture("assets/hurtbox.png");
+    //m_game_state.player_hitbox = new Hitbox(hitbox_texture_id, m_game_state.player);
     
     /**
      Enemies' stuff */
