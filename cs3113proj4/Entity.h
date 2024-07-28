@@ -52,7 +52,7 @@ private:
 
     bool m_animation_lock = false; // Will be used to prevent animation cancelling
 
-    float m_margin = 0.0f; // The margin to trim from the UV coordinates for visual clarity in collisions
+    glm::vec2 m_margin = { 0.0f, 0.0f }; // The margin to trim for visual clarity in collisions
 
     float m_width = 1.0f,
           m_height = 1.0f;
@@ -143,7 +143,8 @@ public:
     void const set_animation_frames(int new_frames) { m_animation_frames = new_frames; }
     void const set_animation_index(int new_index) { m_animation_index = new_index; }
     void const set_animation_time(float new_time) { m_animation_time = new_time; }
-    void const set_margin(float new_margin) { m_margin = new_margin; }
+    void const set_margin_x(float new_margin) { m_margin.x = new_margin; }
+    void const set_margin_y(float new_margin) { m_margin.y = new_margin; }
     void const set_jumping_power(float new_jumping_power) { m_jumping_power = new_jumping_power;}
     void const set_width(float new_width) {m_width = new_width; }
     void const set_height(float new_height) {m_height = new_height; }
