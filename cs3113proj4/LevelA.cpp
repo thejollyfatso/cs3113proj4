@@ -24,6 +24,7 @@ LevelA::~LevelA()
 {
     delete [] m_game_state.enemies;
     delete    m_game_state.player;
+    delete    m_game_state.player_hitbox;
     delete    m_game_state.map;
     Mix_FreeChunk(m_game_state.jump_sfx);
     Mix_FreeMusic(m_game_state.bgm);
@@ -77,6 +78,10 @@ void LevelA::initialise()
 
     // Jumping
     m_game_state.player->set_jumping_power(6.0f);
+
+    // DEBUG first hitbox
+    m_game_state.player_hitbox = new Hitbox(m_game_state.player);
+    //m_game_state.player_hitbox = new Hitbox();
     
     /**
      Enemies' stuff */
@@ -132,6 +137,7 @@ void LevelA::initialise()
 void LevelA::update(float delta_time)
 {
     m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
+    m_game_state.player_hitbox->update(delta_time);
     
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
@@ -144,6 +150,7 @@ void LevelA::render(ShaderProgram *g_shader_program)
 {
     m_game_state.map->render(g_shader_program);
     m_game_state.player->render(g_shader_program);
+    m_game_state.player_hitbox->render(g_shader_program);
     for (int i = 0; i < m_number_of_enemies; i++)
             m_game_state.enemies[i].render(g_shader_program);
 }
