@@ -20,6 +20,7 @@ public:
     GLuint    m_texture_id;
 
     bool m_hidden = true;
+    bool m_active = false; // for active hitframes
 
     Entity* m_entity;  // Pointer to the linked entity
 

@@ -155,8 +155,7 @@ void process_input()
 
                     case SDLK_f:
                         // attack
-						g_current_scene->get_state().player->switch_animation("attack", true);
-						g_current_scene->get_state().player->set_hitdata_by_animation();
+						g_current_scene->get_state().player->attack();
                         break;
                         
                     default:

@@ -90,6 +90,11 @@ Entity::~Entity() {}
 
 void const Entity::set_hitbox(Hitbox* hitbox) { m_hitbox = hitbox; }
 void const Entity::set_hitdata_by_animation() { m_hitbox->set_hitdata(m_current_animation); }
+void const Entity::attack() 
+{ 
+    switch_animation("attack", true);  
+    set_hitdata_by_animation(); 
+}
 
 
 void Entity::set_animation(std::string animation_name, int* indices, int frames) {
