@@ -36,7 +36,7 @@ void LevelA::initialise()
     
     GLuint player_texture_id = Utility::load_texture(SPRITESHEET_FILEPATH);
 
-    glm::vec3 acceleration = glm::vec3(0.0f, -4.81f, 0.0f);
+    glm::vec3 acceleration = glm::vec3(0.0f, -9.81f, 0.0f);
 
     m_game_state.player = new Entity(
         player_texture_id,         // texture id
@@ -76,7 +76,7 @@ void LevelA::initialise()
     m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
 
     // Jumping
-    m_game_state.player->set_jumping_power(5.0f);
+    m_game_state.player->set_jumping_power(6.0f);
     
     /**
      Enemies' stuff */
