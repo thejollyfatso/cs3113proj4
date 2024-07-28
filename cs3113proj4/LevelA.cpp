@@ -82,7 +82,7 @@ void LevelA::initialise()
     // DEBUG first hitbox
     GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
     m_game_state.player_hitbox = new Hitbox(hitbox_texture_id, m_game_state.player);
-    //m_game_state.player_hitbox = new Hitbox();
+    //m_game_state.player_hitbox->set_hidden(false);
     
     /**
      Enemies' stuff */

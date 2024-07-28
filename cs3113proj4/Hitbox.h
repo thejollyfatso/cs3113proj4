@@ -10,10 +10,10 @@ public:
     glm::vec3 m_position;
     glm::vec3 m_offset;  // Offset from the linked entity
 
-    float m_red, m_green, m_blue, m_opacity;  // Color and opacity
-
     glm::mat4 m_model_matrix;
     GLuint    m_texture_id;
+
+    bool m_hidden = true;
 
     Entity* m_entity;  // Pointer to the linked entity
 
@@ -21,6 +21,7 @@ public:
     Hitbox(GLuint texture_id, Entity* entity);
 
     void set_entity(Entity* entity);  
+    void set_hidden(bool hide);
     void update(float delta_time);  
     void render(ShaderProgram* program);
 };
