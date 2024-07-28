@@ -162,6 +162,7 @@ public:
     void const set_height(float new_height) {m_height = new_height; }
 
     void const set_hitbox(Hitbox* hitbox);
+    void const set_hurtbox(Hitbox* hurtbox);
     void const set_hitdata_by_animation();
     void const hitbox_activate();
 	void const hitbox_deactivate();
