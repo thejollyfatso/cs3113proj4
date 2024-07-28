@@ -26,7 +26,8 @@ struct GameState
     Map *map;
     Entity *player;
     Entity *enemies;
-    Hitbox *player_hitbox;
+    Hitbox *hitboxes;
+    Hitbox *hurtboxes;
     
     // ————— AUDIO ————— //
     Mix_Music *bgm;

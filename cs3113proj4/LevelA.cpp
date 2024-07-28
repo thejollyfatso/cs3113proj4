@@ -24,7 +24,6 @@ LevelA::~LevelA()
 {
     delete [] m_game_state.enemies;
     delete    m_game_state.player;
-    delete    m_game_state.player_hitbox;
     delete    m_game_state.map;
     Mix_FreeChunk(m_game_state.jump_sfx);
     Mix_FreeMusic(m_game_state.bgm);
@@ -75,21 +74,6 @@ void LevelA::initialise()
     m_game_state.player->switch_animation("idle", false); // start with idle
 
     m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
-
-    // Player Hitboxes
-    GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
-    m_game_state.player_hitbox = new Hitbox(hitbox_texture_id, m_game_state.player);
-    glm::vec3 hb_scale = { 1.0f, 1.0f, 1.0f };
-    glm::vec3 hb_offset = { 1.3f, 0.4f, 0.0f };
-    m_game_state.player_hitbox->add_hitdata("attack", hb_scale, hb_offset);
-    hb_scale = { 1.0f, 1.0f, 1.0f };
-    hb_offset = { 0.8f, 0.6f, 0.0f };
-    m_game_state.player_hitbox->add_hitdata("counter", hb_scale, hb_offset);
-    m_game_state.player->set_hitbox(m_game_state.player_hitbox);
-    m_game_state.player->get_hitbox()->set_hidden(false);
-
-    GLuint hurtbox_texture_id = Utility::load_texture("assets/hurtbox.png");
-    //m_game_state.player_hitbox = new Hitbox(hitbox_texture_id, m_game_state.player);
     
     /**
      Enemies' stuff */
@@ -101,7 +85,7 @@ void LevelA::initialise()
     int e_idle_animation[] = { 16, 17, 18, 19 };
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
-		m_game_state.enemies[i] =  Entity(
+		m_game_state.enemies[i] = Entity(
 			enemy_texture_id,         // texture id
 			1.0f,                      // speed
 			acceleration,              // acceleration
@@ -130,6 +114,30 @@ void LevelA::initialise()
     m_game_state.enemies[0].set_movement(glm::vec3(0.0f));
     m_game_state.enemies[0].set_acceleration(glm::vec3(0.0f, -9.81f, 0.0f));
 
+    /* Create Hitboxes and Hurtboxes */
+    GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
+    GLuint hurtbox_texture_id = Utility::load_texture("assets/hurtbox.png");
+    m_game_state.hitboxes = new Hitbox[ENEMY_COUNT + 1]; // may need to use n_number_of_enemies later
+    int player_hb_index = ENEMY_COUNT;
+    for (int i = 0; i < ENEMY_COUNT; i++)
+    {
+        m_game_state.hitboxes[i] = Hitbox(
+            hitbox_texture_id,         // texture id
+            &m_game_state.enemies[i]
+		);
+    }
+    m_game_state.hitboxes[player_hb_index] = Hitbox(hitbox_texture_id, m_game_state.player);
+    m_game_state.player->set_hitbox(&m_game_state.hitboxes[player_hb_index]);
+    glm::vec3 hb_scale = { 1.0f, 1.0f, 1.0f };
+    glm::vec3 hb_offset = { 1.3f, 0.4f, 0.0f };
+    m_game_state.player->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
+    hb_scale = { 1.0f, 1.0f, 1.0f };
+    hb_offset = { 0.8f, 0.6f, 0.0f };
+    m_game_state.player->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
+    m_game_state.player->get_hitbox()->set_hidden(false);
+
+    //m_game_state.player_hitbox = new Hitbox(hitbox_texture_id, m_game_state.player);
+
     /**
      BGM and SFX
      */
@@ -145,9 +153,13 @@ void LevelA::initialise()
 void LevelA::update(float delta_time)
 {
     m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
-    m_game_state.player_hitbox->update(delta_time);
     
-    for (int i = 0; i < ENEMY_COUNT; i++)
+    for (int i = 0; i < m_number_of_enemies + 1; i++)
+    {
+        m_game_state.hitboxes[i].update(delta_time);
+    }
+
+    for (int i = 0; i < m_number_of_enemies; i++)
     {
         m_game_state.enemies[i].update(delta_time, m_game_state.player, NULL, NULL, m_game_state.map);
     }
@@ -158,7 +170,8 @@ void LevelA::render(ShaderProgram *g_shader_program)
 {
     m_game_state.map->render(g_shader_program);
     m_game_state.player->render(g_shader_program);
-    m_game_state.player_hitbox->render(g_shader_program);
+    for (int i = 0; i < m_number_of_enemies + 1; i++)
+            m_game_state.hitboxes[i].render(g_shader_program);
     for (int i = 0; i < m_number_of_enemies; i++)
             m_game_state.enemies[i].render(g_shader_program);
 }
