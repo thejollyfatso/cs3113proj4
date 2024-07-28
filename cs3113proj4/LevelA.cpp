@@ -141,7 +141,7 @@ void LevelA::initialise()
     glm::vec3 hb_scale = { 1.0f, 1.0f, 1.0f };
     glm::vec3 hb_offset = { 1.3f, 0.4f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
-    hb_scale = { 1.0f, 1.0f, 1.0f };
+    hb_scale = { 1.2f, 1.2f, 1.0f };
     hb_offset = { 0.8f, 0.6f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
     m_game_state.player->get_hitbox()->set_hidden(false);
@@ -206,7 +206,6 @@ void LevelA::update(float delta_time)
 void LevelA::render(ShaderProgram *g_shader_program)
 {
     m_game_state.map->render(g_shader_program);
-    m_game_state.player->render(g_shader_program);
     for (int i = 0; i < m_number_of_enemies + 1; i++)
     {
         m_game_state.hitboxes[i].render(g_shader_program);
@@ -214,4 +213,5 @@ void LevelA::render(ShaderProgram *g_shader_program)
     }
     for (int i = 0; i < m_number_of_enemies; i++)
             m_game_state.enemies[i].render(g_shader_program);
+    m_game_state.player->render(g_shader_program);
 }
