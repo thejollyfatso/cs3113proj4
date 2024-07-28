@@ -10,6 +10,7 @@
 class Entity;
 
 class Hitbox {
+    friend class Entity; // to affect health and such
 public:
     glm::vec3 m_position;
     glm::vec3 m_scale;
