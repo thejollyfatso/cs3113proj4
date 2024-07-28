@@ -145,7 +145,17 @@ void process_input()
                             g_current_scene->get_state().player->jump();
                             Mix_PlayChannel(-1,  g_current_scene->get_state().jump_sfx, 0);
                         }
-                         break;
+                        break;
+
+                    case SDLK_d:
+                        // counter
+						g_current_scene->get_state().player->switch_animation("counter", true);
+                        break;
+
+                    case SDLK_f:
+                        // attack
+						g_current_scene->get_state().player->switch_animation("attack", true);
+                        break;
                         
                     default:
                         break;
@@ -162,9 +172,6 @@ void process_input()
     if (key_state[SDL_SCANCODE_LEFT])        g_current_scene->get_state().player->move_left();
     else if (key_state[SDL_SCANCODE_RIGHT])  g_current_scene->get_state().player->move_right();
 
-    if (key_state[SDL_SCANCODE_D])        g_current_scene->get_state().player->switch_animation("counter", true);
-    if (key_state[SDL_SCANCODE_F])        g_current_scene->get_state().player->switch_animation("attack", true);
-     
     if (glm::length( g_current_scene->get_state().player->get_movement()) > 1.0f)
         g_current_scene->get_state().player->normalise_movement();
  

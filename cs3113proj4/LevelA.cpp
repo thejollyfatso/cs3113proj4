@@ -43,7 +43,7 @@ void LevelA::initialise()
         player_texture_id,         // texture id
         5.0f,                      // speed
         acceleration,              // acceleration
-        5.0f,                      // jumping power
+        6.0f,                      // jumping power
         0.0f,                      // animation time
         8,                         // animation frame amount
         0,                         // current animation index
@@ -75,9 +75,6 @@ void LevelA::initialise()
     m_game_state.player->switch_animation("idle", false); // start with idle
 
     m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
-
-    // Jumping
-    m_game_state.player->set_jumping_power(6.0f);
 
     // DEBUG first hitbox
     GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
