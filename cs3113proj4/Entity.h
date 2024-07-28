@@ -159,6 +159,8 @@ public:
 
     void const set_hitbox(Hitbox* hitbox);
     void const set_hitdata_by_animation();
+    void const hitbox_activate();
+	void const hitbox_deactivate();
 
 };
 

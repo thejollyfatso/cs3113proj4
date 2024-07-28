@@ -89,7 +89,11 @@ Entity::Entity(GLuint texture_id, float speed, float width, float height, Entity
 Entity::~Entity() {}
 
 void const Entity::set_hitbox(Hitbox* hitbox) { m_hitbox = hitbox; }
+// helpers
 void const Entity::set_hitdata_by_animation() { m_hitbox->set_hitdata(m_current_animation); }
+void const Entity::hitbox_activate() { m_hitbox->m_active = true; }
+void const Entity::hitbox_deactivate() { m_hitbox->m_active = false; }
+
 void const Entity::attack() 
 { 
     switch_animation("attack", true);  
