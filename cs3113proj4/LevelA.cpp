@@ -23,6 +23,8 @@ unsigned int LEVEL_DATA[] =
 LevelA::~LevelA()
 {
     delete [] m_game_state.enemies;
+    delete [] m_game_state.hitboxes;
+    delete [] m_game_state.hurtboxes;
     delete    m_game_state.player;
     delete    m_game_state.map;
     Mix_FreeChunk(m_game_state.jump_sfx);
@@ -156,14 +158,6 @@ void LevelA::initialise()
     }
     m_game_state.hurtboxes[player_hb_index] = Hitbox(hurtbox_texture_id, m_game_state.player);
     m_game_state.player->set_hurtbox(&m_game_state.hurtboxes[player_hb_index]);
-    /*
-    glm::vec3 hb_scale = { 1.0f, 1.0f, 1.0f };
-    glm::vec3 hb_offset = { 1.3f, 0.4f, 0.0f };
-    m_game_state.player->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
-    hb_scale = { 1.0f, 1.0f, 1.0f };
-    hb_offset = { 0.8f, 0.6f, 0.0f };
-    m_game_state.player->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
-    */
     m_game_state.player->get_hurtbox()->set_hidden(false);
     m_game_state.enemies[0].get_hurtbox()->set_hidden(false);
 
