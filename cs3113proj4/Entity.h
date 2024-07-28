@@ -68,6 +68,7 @@ private:
     bool m_collided_right  = false;
 
     Hitbox* m_hitbox = nullptr;
+    Hitbox* m_hurtbox = nullptr;
 
 public:
     // ————— STATIC VARIABLES ————— //
@@ -134,6 +135,7 @@ public:
     bool      const get_collided_left() const { return m_collided_left; }
 
     Hitbox* get_hitbox() const { return m_hitbox; }
+    Hitbox* get_hurtbox() const { return m_hurtbox; }
     
     void activate()   { m_is_active = true;  };
     void deactivate() { m_is_active = false; };
