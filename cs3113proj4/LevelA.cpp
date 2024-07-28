@@ -143,7 +143,7 @@ void LevelA::initialise()
     hb_scale = { 1.0f, 1.0f, 1.0f };
     hb_offset = { 0.8f, 0.6f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
-    m_game_state.player->get_hitbox()->set_hidden(false);
+    //m_game_state.player->get_hitbox()->set_hidden(false);
     m_game_state.enemies[0].get_hitbox()->set_hidden(false);
 
     // repeat for hurtboxes
@@ -158,7 +158,13 @@ void LevelA::initialise()
     }
     m_game_state.hurtboxes[player_hb_index] = Hitbox(hurtbox_texture_id, m_game_state.player);
     m_game_state.player->set_hurtbox(&m_game_state.hurtboxes[player_hb_index]);
-    m_game_state.player->get_hurtbox()->set_hidden(false);
+    // scale and offset hurtbox
+    hb_scale = { 0.7f, 1.4f, 1.0f };
+    hb_offset = { -0.15f, 0.1f, 0.0f };
+    m_game_state.player->get_hurtbox()->set_scale(hb_scale.x, hb_scale.y);
+    m_game_state.player->get_hurtbox()->set_offset(hb_offset.x, hb_offset.y);
+
+    //m_game_state.player->get_hurtbox()->set_hidden(false);
     m_game_state.enemies[0].get_hurtbox()->set_hidden(false);
 
     /**
