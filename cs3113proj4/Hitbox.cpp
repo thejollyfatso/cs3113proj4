@@ -13,8 +13,8 @@ Hitbox::Hitbox()
     m_position = glm::vec3(0);
 }
 
-Hitbox::Hitbox(Entity* entity)
-    : m_red(1.0f), m_green(0.1f), m_blue(0.1f), m_opacity(1.0f), m_offset(0.0f), m_entity(entity) {
+Hitbox::Hitbox(GLuint texture_id, Entity* entity)
+    : m_texture_id(texture_id), m_red(1.0f), m_green(0.1f), m_blue(0.1f), m_opacity(1.0f), m_offset(0.0f), m_entity(entity) {
     m_model_matrix = glm::mat4(1.0f);
     if (m_entity) {
         m_position = m_entity->get_position();
@@ -43,9 +43,13 @@ void Hitbox::render(ShaderProgram* program) {
     program->set_model_matrix(m_model_matrix);
 
     float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
+    float tex_coords[] = { 0.0,  1.0, 1.0,  1.0, 1.0, 0.0,  0.0,  1.0, 1.0, 0.0,  0.0, 0.0 };
+    glBindTexture(GL_TEXTURE_2D, m_texture_id);
 
     glVertexAttribPointer(program->get_position_attribute(), 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(program->get_position_attribute());
+    glVertexAttribPointer(program->get_tex_coordinate_attribute(), 2, GL_FLOAT, false, 0, tex_coords);
+    glEnableVertexAttribArray(program->get_tex_coordinate_attribute());
 
     program->set_colour(m_red, m_green, m_blue, m_opacity);
 

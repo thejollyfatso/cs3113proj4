@@ -13,11 +13,12 @@ public:
     float m_red, m_green, m_blue, m_opacity;  // Color and opacity
 
     glm::mat4 m_model_matrix;
+    GLuint    m_texture_id;
 
     Entity* m_entity;  // Pointer to the linked entity
 
     Hitbox();
-    Hitbox(Entity* entity);
+    Hitbox(GLuint texture_id, Entity* entity);
 
     void set_entity(Entity* entity);  
     void update(float delta_time);  

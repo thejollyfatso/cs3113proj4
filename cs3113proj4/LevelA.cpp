@@ -80,7 +80,8 @@ void LevelA::initialise()
     m_game_state.player->set_jumping_power(6.0f);
 
     // DEBUG first hitbox
-    m_game_state.player_hitbox = new Hitbox(m_game_state.player);
+    GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
+    m_game_state.player_hitbox = new Hitbox(hitbox_texture_id, m_game_state.player);
     //m_game_state.player_hitbox = new Hitbox();
     
     /**
