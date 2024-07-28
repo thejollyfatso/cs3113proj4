@@ -8,6 +8,7 @@
 class Hitbox {
 public:
     glm::vec3 m_position;
+    glm::vec3 m_scale;
     glm::vec3 m_offset;  // Offset from the linked entity
 
     glm::mat4 m_model_matrix;
@@ -22,6 +23,9 @@ public:
 
     void set_entity(Entity* entity);  
     void set_hidden(bool hide);
+    void set_scale(float x_scale, float y_scale);
+    void set_offset(float x_offset, float y_offset);
+
     void update(float delta_time);  
     void render(ShaderProgram* program);
 };

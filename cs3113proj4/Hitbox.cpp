@@ -11,11 +11,13 @@ Hitbox::Hitbox()
     : m_offset(0.0f), m_entity(nullptr) {
     m_model_matrix = glm::mat4(1.0f);
     m_position = glm::vec3(0);
+    m_scale = glm::vec3(1.0f);
 }
 
 Hitbox::Hitbox(GLuint texture_id, Entity* entity)
     : m_texture_id(texture_id), m_offset(0.0f), m_entity(entity) {
     m_model_matrix = glm::mat4(1.0f);
+    m_scale = glm::vec3(1.0f);
     if (m_entity) {
         m_position = m_entity->get_position();
     }
@@ -33,6 +35,18 @@ void Hitbox::set_hidden(bool hide)
     m_hidden = hide;
 }
 
+void Hitbox::set_scale(float x_scale, float y_scale)
+{
+    m_scale.x = x_scale;
+    m_scale.y = y_scale;
+}
+
+void Hitbox::set_offset(float x_offset, float y_offset)
+{
+    m_offset.x = x_offset;
+    m_offset.y = x_offset;
+}
+
 void Hitbox::update(float delta_time) {
     if (m_entity) {
         // Update the hitbox position based on the entity position and offset
@@ -41,6 +55,7 @@ void Hitbox::update(float delta_time) {
         // Update the model matrix with the new position
         m_model_matrix = glm::mat4(1.0f);
         m_model_matrix = glm::translate(m_model_matrix, m_position);
+        m_model_matrix = glm::scale(m_model_matrix, m_scale);
     }
 }
 
