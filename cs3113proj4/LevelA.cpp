@@ -79,8 +79,15 @@ void LevelA::initialise()
     // DEBUG first hitbox
     GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
     m_game_state.player_hitbox = new Hitbox(hitbox_texture_id, m_game_state.player);
-    m_game_state.player_hitbox->set_scale(2.0f, 1.0f);
-    m_game_state.player_hitbox->set_offset(1.0f, 1.0f);
+    //m_game_state.player_hitbox->set_scale(2.0f, 1.0f);
+    //m_game_state.player_hitbox->set_offset(1.0f, 1.0f);
+    glm::vec3 hb_scale = { 1.0f, 1.0f, 1.0f };
+    glm::vec3 hb_offset = { 1.3f, 0.4f, 0.0f };
+    m_game_state.player_hitbox->add_hitdata("atk", hb_scale, hb_offset);
+    hb_scale = { 1.0f, 1.0f, 1.0f };
+    hb_offset = { 0.8f, 0.6f, 0.0f };
+    m_game_state.player_hitbox->add_hitdata("counter", hb_scale, hb_offset);
+    m_game_state.player_hitbox->set_hitdata("counter");
     m_game_state.player_hitbox->set_hidden(false);
     
     /**

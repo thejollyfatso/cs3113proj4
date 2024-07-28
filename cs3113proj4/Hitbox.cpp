@@ -47,6 +47,24 @@ void Hitbox::set_offset(float x_offset, float y_offset)
     m_offset.y = x_offset;
 }
 
+void Hitbox::add_hitdata(const std::string& key, const glm::vec3& scale, const glm::vec3& offset)
+{
+    key_value_store[key] = std::make_pair(scale, offset);
+}
+
+void Hitbox::set_hitdata(const std::string& key)
+{
+    auto hitdata = key_value_store.find(key);
+    if (hitdata != key_value_store.end()) {
+        m_scale = hitdata->second.first;
+        m_offset = hitdata->second.second;
+    }
+    else {
+        m_scale = glm::vec3(1.0f);
+        m_offset = glm::vec3(0.0f);
+    }
+}
+
 void Hitbox::update(float delta_time) {
     if (m_entity) {
         // Update the hitbox position based on the entity position and offset
