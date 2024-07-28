@@ -35,7 +35,12 @@ public:
     void add_hitdata(const std::string& key, const glm::vec3& scale, const glm::vec3& offset);
     void set_hitdata(const std::string& key);
 
-    void update(float delta_time);  
+    bool isColliding(const Hitbox* other) const;
+    void checkCollisions(Hitbox* hurtboxes, int num_hurtboxes);
+
+	void update(float delta_time);
+	void update(float delta_time, Hitbox* otherHitbox);
+	void update(float delta_time, Hitbox* hurtboxes, int num_hurtboxes);
     void render(ShaderProgram* program);
 };
 

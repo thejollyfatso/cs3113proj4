@@ -65,6 +65,41 @@ void Hitbox::set_hitdata(const std::string& key)
     }
 }
 
+bool Hitbox::isColliding(const Hitbox* other) const
+{
+    if (!other) return false;
+
+    // Calculate this hitbox bounds
+    float thisLeft = m_position.x + m_offset.x - m_scale.x / 2.0f;
+    float thisRight = m_position.x + m_offset.x + m_scale.x / 2.0f;
+    float thisTop = m_position.y + m_offset.y + m_scale.y / 2.0f;
+    float thisBottom = m_position.y + m_offset.y - m_scale.y / 2.0f;
+
+    // Calculate other hitbox bounds
+    float otherLeft = other->m_position.x + other->m_offset.x - other->m_scale.x / 2.0f;
+    float otherRight = other->m_position.x + other->m_offset.x + other->m_scale.x / 2.0f;
+    float otherTop = other->m_position.y + other->m_offset.y + other->m_scale.y / 2.0f;
+    float otherBottom = other->m_position.y + other->m_offset.y - other->m_scale.y / 2.0f;
+
+    // Check for overlap
+    bool collisionX = thisLeft < otherRight && thisRight > otherLeft;
+    bool collisionY = thisBottom < otherTop && thisTop > otherBottom;
+
+    return collisionX && collisionY;
+}
+
+void Hitbox::checkCollisions(Hitbox* hurtboxes, int num_hurtboxes)
+{
+    // Check for collisions with other hurtboxes and set them to visible
+    for (int i = 0; i < num_hurtboxes; ++i) {
+        if (this != &hurtboxes[i] && isColliding(&hurtboxes[i])) {
+            hurtboxes[i].m_hidden = false;
+            m_hidden = false;
+        }
+    }
+}
+
+// hurtbox updates which are passive awaiting hitbox check
 void Hitbox::update(float delta_time) {
     if (m_entity) {
         // Update the hitbox position based on the entity position and offset
@@ -74,6 +109,40 @@ void Hitbox::update(float delta_time) {
         m_model_matrix = glm::mat4(1.0f);
         m_model_matrix = glm::translate(m_model_matrix, m_position);
         m_model_matrix = glm::scale(m_model_matrix, m_scale);
+    }
+}
+
+// enemy update which only needs to check for player collision
+void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
+    if (m_entity) {
+        // Update the hitbox position based on the entity position and offset
+        m_position = m_entity->get_position() + m_offset;
+
+        // Update the model matrix with the new position
+        m_model_matrix = glm::mat4(1.0f);
+        m_model_matrix = glm::translate(m_model_matrix, m_position);
+        m_model_matrix = glm::scale(m_model_matrix, m_scale);
+
+        // Check for collision with the other hitbox
+        if (isColliding(otherHitbox)) {
+            this->m_hidden = false;
+            otherHitbox->m_hidden = false;
+        }
+    }
+}
+
+// player update which checks against enemy hurtboxes
+void Hitbox::update(float delta_time, Hitbox* hurtboxes, int num_hurtboxes) {
+    if (m_entity) {
+        // Update the hitbox position based on the entity position and offset
+        m_position = m_entity->get_position() + m_offset;
+
+        // Update the model matrix with the new position
+        m_model_matrix = glm::mat4(1.0f);
+        m_model_matrix = glm::translate(m_model_matrix, m_position);
+        m_model_matrix = glm::scale(m_model_matrix, m_scale);
+
+        checkCollisions(hurtboxes, num_hurtboxes);
     }
 }
 
