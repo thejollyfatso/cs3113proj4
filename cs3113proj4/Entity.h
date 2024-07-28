@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include "Map.h"
+#include "Hitbox.h"
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
@@ -13,8 +14,11 @@ enum AIState    { WALKING, IDLE, ATTACKING };
 
 enum AnimationDirection { LEFT, RIGHT, UP, DOWN };
 
+class Hitbox;
+
 class Entity
 {
+    friend class Hitbox;
 private:
     bool m_is_active = true;
     
@@ -44,6 +48,7 @@ private:
         m_animation_index,
         m_animation_rows;
 
+
     int* m_animation_indices = nullptr;
     float m_animation_time = 0.0f;
 
@@ -61,6 +66,8 @@ private:
     bool m_collided_bottom = false;
     bool m_collided_left   = false;
     bool m_collided_right  = false;
+
+    Hitbox* m_hitbox = nullptr;
 
 public:
     // ————— STATIC VARIABLES ————— //
@@ -148,6 +155,9 @@ public:
     void const set_jumping_power(float new_jumping_power) { m_jumping_power = new_jumping_power;}
     void const set_width(float new_width) {m_width = new_width; }
     void const set_height(float new_height) {m_height = new_height; }
+
+    void const set_hitbox(Hitbox* hitbox);
+    void const set_hitdata_by_animation();
 
 };
 

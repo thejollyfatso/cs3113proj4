@@ -88,11 +88,16 @@ Entity::Entity(GLuint texture_id, float speed, float width, float height, Entity
 
 Entity::~Entity() {}
 
+void const Entity::set_hitbox(Hitbox* hitbox) { m_hitbox = hitbox; }
+void const Entity::set_hitdata_by_animation() { m_hitbox->set_hitdata(m_current_animation); }
+
+
 void Entity::set_animation(std::string animation_name, int* indices, int frames) {
     m_animations[animation_name] = std::vector<int>(indices, indices + frames);
 }
 
 void Entity::switch_animation(std::string animation_name, bool locked) {
+    // this should NOT go here this is for DEBUG
     if (locked) { m_animation_index = 0; }
     if (!m_animation_lock) {
         m_animation_lock = locked;
@@ -109,6 +114,7 @@ void Entity::draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint textu
 
     // Get the frame index from the current animation
     int frame_index = m_animation_indices[m_animation_index];
+
 
     float u_coord = (float)(frame_index % m_animation_cols) / (float)m_animation_cols;
     float v_coord = (float)(frame_index / m_animation_cols) / (float)m_animation_rows;
@@ -127,6 +133,7 @@ void Entity::draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint textu
     float tex_coords[] = {
         u_coord + margin_u,         v_coord + height - margin_v,
         u_coord + width - margin_u, v_coord + height - margin_v,
+
         u_coord + width - margin_u, v_coord + margin_v,
         u_coord + margin_u,         v_coord + height - margin_v,
         u_coord + width - margin_u, v_coord + margin_v,
@@ -144,6 +151,7 @@ void Entity::draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint textu
     glEnableVertexAttribArray(program->get_position_attribute());
 
     glVertexAttribPointer(program->get_tex_coordinate_attribute(), 2, GL_FLOAT, false, 0, tex_coords);
+
     glEnableVertexAttribArray(program->get_tex_coordinate_attribute());
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -184,6 +192,7 @@ void const Entity::check_collision_x(Entity* collidable_entities, int collidable
             else if (m_velocity.x < 0) {
                 m_position.x += x_overlap;
                 m_velocity.x = 0;
+
                 m_collided_left = true;
             }
         }
@@ -201,6 +210,7 @@ void const Entity::check_collision_y(Entity* collidable_entities, int collidable
         if (check_collision(collidable_entity)) {
             float y_distance = fabs(m_position.y - collidable_entity->m_position.y);
             float y_overlap = fabs(y_distance - (adjusted_height / 2.0f) - (other_adjusted_height / 2.0f));
+
             if (m_velocity.y > 0) {
                 m_position.y -= y_overlap;
                 m_velocity.y = 0;
@@ -258,6 +268,7 @@ void const Entity::check_collision_y(Map* map) {
     }
     else if (map->is_solid(bottom_right, &penetration_x, &penetration_y) && m_velocity.y < 0) {
         m_position.y += penetration_y;
+
         m_velocity.y = 0;
         m_collided_bottom = true;
     }

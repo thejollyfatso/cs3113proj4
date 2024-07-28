@@ -7,12 +7,14 @@
 #include "ShaderProgram.h"
 #include "Entity.h"  // Include the Entity class to link with Hitbox
 
+class Entity;
+
 class Hitbox {
 public:
     glm::vec3 m_position;
     glm::vec3 m_scale;
     glm::vec3 m_offset;  // Offset from the linked entity
-    std::unordered_map<std::string, std::pair<glm::vec3, glm::vec3>> key_value_store;
+    std::unordered_map<std::string, std::pair<glm::vec3, glm::vec3>> key_value_store; // !! keys assumed to match animation name in entity
 
     glm::mat4 m_model_matrix;
     GLuint    m_texture_id;

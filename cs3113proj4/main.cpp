@@ -150,11 +150,13 @@ void process_input()
                     case SDLK_d:
                         // counter
 						g_current_scene->get_state().player->switch_animation("counter", true);
+						g_current_scene->get_state().player->set_hitdata_by_animation();
                         break;
 
                     case SDLK_f:
                         // attack
 						g_current_scene->get_state().player->switch_animation("attack", true);
+						g_current_scene->get_state().player->set_hitdata_by_animation();
                         break;
                         
                     default:
