@@ -157,6 +157,11 @@ void process_input()
                         // attack
 						g_current_scene->get_state().player->attack();
                         break;
+
+                    case SDLK_s:
+                        // attack
+						g_current_scene->get_state().enemies[0].activate();
+                        break;
                         
                     default:
                         break;
