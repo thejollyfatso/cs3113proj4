@@ -172,12 +172,9 @@ void Entity::draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint textu
     float width = 1.0f / (float)m_animation_cols;
     float height = 1.0f / (float)m_animation_rows;
 
-    // Apply the margin to the UV coordinates
-    float margin_u = m_margin.x / (float)m_animation_cols;
-    float margin_v = m_margin.y / (float)m_animation_rows;
-    // DEBUG: negate margins
-    margin_u = 0.0f;
-    margin_v = 0.0f;
+    // antiquated code
+    float margin_u = 0.0f;
+    float margin_v = 0.0f;
 
     // Adjusted UV coordinates with margin
     float tex_coords[] = {
@@ -211,30 +208,49 @@ void Entity::draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint textu
 }
 
 bool const Entity::check_collision(Entity* other) const {
-    float adjusted_width = m_width - m_margin.x * 2;
-    float adjusted_height = m_height - m_margin.y * 2;
+    float left_margin_adjustment = m_margin[0][0];
+    float right_margin_adjustment = m_margin[0][1];
+    float up_margin_adjustment = m_margin[1][0];
+    float down_margin_adjustment = m_margin[1][1];
 
-    float other_adjusted_width = other->m_width - other->m_margin.x * 2;
-    float other_adjusted_height = other->m_height - other->m_margin.y * 2;
+    float adjusted_width = m_width - left_margin_adjustment - right_margin_adjustment;
+    float adjusted_height = m_height - up_margin_adjustment - down_margin_adjustment;
 
-    float x_distance = fabs(m_position.x - other->m_position.x) - ((adjusted_width + other_adjusted_width) / 2.0f);
-    float y_distance = fabs(m_position.y - other->m_position.y) - ((adjusted_height + other_adjusted_height) / 2.0f);
+    float other_left_margin_adjustment = other->m_margin[0][0];
+    float other_right_margin_adjustment = other->m_margin[0][1];
+    float other_up_margin_adjustment = other->m_margin[1][0];
+    float other_down_margin_adjustment = other->m_margin[1][1];
+
+    float other_adjusted_width = other->m_width - other_left_margin_adjustment - other_right_margin_adjustment;
+    float other_adjusted_height = other->m_height - other_up_margin_adjustment - other_down_margin_adjustment;
+
+    float x_distance = fabs((m_position.x + left_margin_adjustment - right_margin_adjustment) -
+        (other->m_position.x + other_left_margin_adjustment - other_right_margin_adjustment))
+        - ((adjusted_width + other_adjusted_width) / 2.0f);
+    float y_distance = fabs((m_position.y + up_margin_adjustment - down_margin_adjustment) -
+        (other->m_position.y + other_up_margin_adjustment - other_down_margin_adjustment))
+        - ((adjusted_height + other_adjusted_height) / 2.0f);
 
     return x_distance < 0.0f && y_distance < 0.0f;
 }
 
 void const Entity::check_collision_x(Entity* collidable_entities, int collidable_entity_count) {
-    float adjusted_width = m_width - m_margin.x * 2;
+    float left_margin_adjustment = m_margin[0][0];
+    float right_margin_adjustment = m_margin[0][1];
+    float adjusted_width = m_width - left_margin_adjustment - right_margin_adjustment;
 
     for (int i = 0; i < collidable_entity_count; i++) {
         Entity* collidable_entity = &collidable_entities[i];
         if (!collidable_entity->m_is_active) return;
         if (collidable_entity == this) continue;
 
-        float other_adjusted_width = collidable_entity->m_width - collidable_entity->m_margin.x * 2;
+        float other_left_margin_adjustment = collidable_entity->m_margin[0][0];
+        float other_right_margin_adjustment = collidable_entity->m_margin[0][1];
+        float other_adjusted_width = collidable_entity->m_width - other_left_margin_adjustment - other_right_margin_adjustment;
 
         if (check_collision(collidable_entity)) {
-            float x_distance = fabs(m_position.x - collidable_entity->m_position.x);
+            float x_distance = fabs((m_position.x + left_margin_adjustment - right_margin_adjustment) -
+                (collidable_entity->m_position.x + other_left_margin_adjustment - other_right_margin_adjustment));
             float x_overlap = fabs(x_distance - (adjusted_width / 2.0f) - (other_adjusted_width / 2.0f));
             if (m_velocity.x > 0) {
                 m_position.x -= x_overlap;
@@ -244,7 +260,6 @@ void const Entity::check_collision_x(Entity* collidable_entities, int collidable
             else if (m_velocity.x < 0) {
                 m_position.x += x_overlap;
                 m_velocity.x = 0;
-
                 m_collided_left = true;
             }
         }
@@ -252,17 +267,22 @@ void const Entity::check_collision_x(Entity* collidable_entities, int collidable
 }
 
 void const Entity::check_collision_y(Entity* collidable_entities, int collidable_entity_count) {
-    float adjusted_height = m_height - m_margin.y * 2;
+    float up_margin_adjustment = m_margin[1][0];
+    float down_margin_adjustment = m_margin[1][1];
+    float adjusted_height = m_height - up_margin_adjustment - down_margin_adjustment;
 
     for (int i = 0; i < collidable_entity_count; i++) {
         Entity* collidable_entity = &collidable_entities[i];
         if (!collidable_entity->m_is_active) return;
         if (collidable_entity == this) continue;
 
-        float other_adjusted_height = collidable_entity->m_height - collidable_entity->m_margin.y * 2;
+        float other_up_margin_adjustment = collidable_entity->m_margin[1][0];
+        float other_down_margin_adjustment = collidable_entity->m_margin[1][1];
+        float other_adjusted_height = collidable_entity->m_height - other_up_margin_adjustment - other_down_margin_adjustment;
 
         if (check_collision(collidable_entity)) {
-            float y_distance = fabs(m_position.y - collidable_entity->m_position.y);
+            float y_distance = fabs((m_position.y + up_margin_adjustment - down_margin_adjustment) -
+                (collidable_entity->m_position.y + other_up_margin_adjustment - other_down_margin_adjustment));
             float y_overlap = fabs(y_distance - (adjusted_height / 2.0f) - (other_adjusted_height / 2.0f));
 
             if (m_velocity.y > 0) {
@@ -280,16 +300,18 @@ void const Entity::check_collision_y(Entity* collidable_entities, int collidable
 }
 
 void const Entity::check_collision_y(Map* map) {
-    float adjusted_height = m_height - m_margin.y * 2;
-    float adjusted_width = m_width - m_margin.x * 2;
+    float up_margin_adjustment = m_margin[1][0];
+    float down_margin_adjustment = m_margin[1][1];
+    float adjusted_height = m_height - up_margin_adjustment - down_margin_adjustment;
+    float adjusted_width = m_width - (m_margin[0][0] + m_margin[0][1]);
 
-    glm::vec3 top = glm::vec3(m_position.x, m_position.y + (adjusted_height / 2), m_position.z);
-    glm::vec3 top_left = glm::vec3(m_position.x - (adjusted_width / 2), m_position.y + (adjusted_height / 2), m_position.z);
-    glm::vec3 top_right = glm::vec3(m_position.x + (adjusted_width / 2), m_position.y + (adjusted_height / 2), m_position.z);
+    glm::vec3 top = glm::vec3(m_position.x, m_position.y + (adjusted_height / 2) - up_margin_adjustment, m_position.z);
+    glm::vec3 top_left = glm::vec3(m_position.x - (adjusted_width / 2), m_position.y + (adjusted_height / 2) - up_margin_adjustment, m_position.z);
+    glm::vec3 top_right = glm::vec3(m_position.x + (adjusted_width / 2), m_position.y + (adjusted_height / 2) - up_margin_adjustment, m_position.z);
 
-    glm::vec3 bottom = glm::vec3(m_position.x, m_position.y - (adjusted_height / 2), m_position.z);
-    glm::vec3 bottom_left = glm::vec3(m_position.x - (adjusted_width / 2), m_position.y - (adjusted_height / 2), m_position.z);
-    glm::vec3 bottom_right = glm::vec3(m_position.x + (adjusted_width / 2), m_position.y - (adjusted_height / 2), m_position.z);
+    glm::vec3 bottom = glm::vec3(m_position.x, m_position.y - (adjusted_height / 2) + down_margin_adjustment, m_position.z);
+    glm::vec3 bottom_left = glm::vec3(m_position.x - (adjusted_width / 2), m_position.y - (adjusted_height / 2) + down_margin_adjustment, m_position.z);
+    glm::vec3 bottom_right = glm::vec3(m_position.x + (adjusted_width / 2), m_position.y - (adjusted_height / 2) + down_margin_adjustment, m_position.z);
 
     float penetration_x = 0;
     float penetration_y = 0;
@@ -322,18 +344,19 @@ void const Entity::check_collision_y(Map* map) {
     }
     else if (map->is_solid(bottom_right, &penetration_x, &penetration_y) && m_velocity.y < 0) {
         m_position.y += penetration_y;
-
         m_velocity.y = 0;
         m_collided_bottom = true;
     }
 }
 
 void const Entity::check_collision_x(Map* map) {
-    float adjusted_height = m_height - m_margin.y * 2;
-    float adjusted_width = m_width - m_margin.x * 2;
+    float left_margin_adjustment = m_margin[0][0];
+    float right_margin_adjustment = m_margin[0][1];
+    float adjusted_height = m_height - (m_margin[1][0] + m_margin[1][1]);
+    float adjusted_width = m_width - left_margin_adjustment - right_margin_adjustment;
 
-    glm::vec3 left = glm::vec3(m_position.x - (adjusted_width / 2), m_position.y, m_position.z);
-    glm::vec3 right = glm::vec3(m_position.x + (adjusted_width / 2), m_position.y, m_position.z);
+    glm::vec3 left = glm::vec3(m_position.x - (adjusted_width / 2) + left_margin_adjustment, m_position.y, m_position.z);
+    glm::vec3 right = glm::vec3(m_position.x + (adjusted_width / 2) - right_margin_adjustment, m_position.y, m_position.z);
 
     float penetration_x = 0;
     float penetration_y = 0;
