@@ -132,11 +132,11 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
         // Check for collision with the other hitbox
         //if (isColliding(otherHitbox) && otherHitbox->m_entity->m_is_active && m_entity->m_is_active && m_active) {
         if (isColliding(otherHitbox) && otherHitbox->m_entity->m_is_active && m_entity->m_is_active && !m_active) {
-            this->m_hidden = false;
-            otherHitbox->m_hidden = false;
-            //otherHitbox->m_entity->death();
+            //this->m_hidden = false;
+            //otherHitbox->m_hidden = false;
+            otherHitbox->m_entity->death();
         }
-		else { this->m_hidden = true; otherHitbox->m_hidden = true; }
+		else { this->m_hidden = true; otherHitbox->m_hidden = true; } //  DEBUG
     }
 }
 
