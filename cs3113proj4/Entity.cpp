@@ -48,7 +48,7 @@ void Entity::ai_guard(Entity* player) {
         }
         break;
     case ATTACKING:
-        if (m_current_animation != "attack") switch_animation("attack", true);
+        switch_animation("attack", true);
 		m_ai_state = IDLE;
         break;
     default:
@@ -140,7 +140,7 @@ void Entity::set_animation(std::string animation_name, int* indices, int frames,
 
 void Entity::switch_animation(std::string animation_name, bool locked) {
     // this should NOT go here this is for DEBUG
-    if (locked) { m_animation_index = 0; }
+    if (locked && m_current_animation != animation_name) { m_animation_index = 0;  m_current_animation = animation_name;  }
     if (!m_animation_lock) {
         m_animation_lock = locked;
         auto it = m_animations.find(animation_name);
