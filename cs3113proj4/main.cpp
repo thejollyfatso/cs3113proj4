@@ -159,7 +159,7 @@ void process_input()
                         break;
 
                     case SDLK_s:
-                        // attack
+                        // respawn 
 						g_current_scene->get_state().enemies[0].activate();
                         break;
                         

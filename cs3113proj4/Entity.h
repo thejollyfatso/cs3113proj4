@@ -149,7 +149,7 @@ public:
     Hitbox* get_hitbox() const { return m_hitbox; }
     Hitbox* get_hurtbox() const { return m_hurtbox; }
     
-    void activate()   { m_is_active = true;  };
+    void activate() { m_is_active = true; m_alive = true; };
     void deactivate() { m_is_active = false; };
     // ————— SETTERS ————— //
     void const set_entity_type(EntityType new_entity_type)  { m_entity_type = new_entity_type;};
