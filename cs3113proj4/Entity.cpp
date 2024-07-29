@@ -48,7 +48,7 @@ void Entity::ai_guard(Entity* player) {
         }
         break;
     case ATTACKING:
-        switch_animation("attack", true);
+        attack();
 		m_ai_state = IDLE;
         break;
     default:
