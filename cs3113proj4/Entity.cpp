@@ -145,7 +145,7 @@ void Entity::set_animation(std::string animation_name, int* indices, int frames,
 }
 
 void Entity::switch_animation(std::string animation_name, bool locked) {
-    if (!m_animation_lock) {
+    if (!m_animation_lock || animation_name == "death") {
         if (locked) m_animation_index = 0;
         m_animation_lock = locked;
         auto it = m_animations.find(animation_name);
