@@ -322,18 +322,33 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     if (m_entity_type == ENEMY) ai_activate(player);
 
     if (m_animation_indices != nullptr && !m_current_animation.empty()) {
-            m_animation_time += delta_time;
-            float frames_per_second = (float)1 / SECONDS_PER_FRAME;
+        m_animation_time += delta_time;
+        float frames_per_second = (float)1 / SECONDS_PER_FRAME;
 
-            if (m_animation_time >= frames_per_second) {
-                m_animation_time = 0.0f;
-                m_animation_index++;
+        if (m_animation_time >= frames_per_second) {
+            m_animation_time = 0.0f;
+            m_animation_index++;
 
-                if (m_animation_index >= m_animation_frames) {
-                    m_animation_index = 0; // Loop back to the first frame
-                    m_animation_lock = false;
+            // Check if we are within the active frames
+            auto it = m_animations.find(m_current_animation);
+            if (it != m_animations.end()) {
+                int active_start = it->second.active_start;
+                int active_end = active_start + it->second.active_frames;
+
+                if (m_animation_index >= active_start && m_animation_index < active_end) {
+                    // The frame is active
+                    m_hitbox->set_active(true);
+                }
+                else {
+                    m_hitbox->set_active(false);
                 }
             }
+
+            if (m_animation_index >= m_animation_frames) {
+                m_animation_index = 0; // Loop back to the first frame
+                m_animation_lock = false;
+            }
+        }
     }
 
     m_velocity.x = m_movement.x * m_speed;

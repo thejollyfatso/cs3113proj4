@@ -30,6 +30,7 @@ public:
 
     void set_entity(Entity* entity);  
     void set_hidden(bool hide);
+    void set_active(bool active) { m_active = active; }
     void set_scale(float x_scale, float y_scale);
     void set_offset(float x_offset, float y_offset);
     void add_hitdata(const std::string& key, const glm::vec3& scale, const glm::vec3& offset);
