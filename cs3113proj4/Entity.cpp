@@ -212,6 +212,7 @@ void const Entity::check_collision_x(Entity* collidable_entities, int collidable
 
     for (int i = 0; i < collidable_entity_count; i++) {
         Entity* collidable_entity = &collidable_entities[i];
+        if (!collidable_entity->m_is_active) return;
 
         float other_adjusted_width = collidable_entity->m_width - collidable_entity->m_margin.x * 2;
 
@@ -238,6 +239,7 @@ void const Entity::check_collision_y(Entity* collidable_entities, int collidable
 
     for (int i = 0; i < collidable_entity_count; i++) {
         Entity* collidable_entity = &collidable_entities[i];
+        if (!collidable_entity->m_is_active) return;
 
         float other_adjusted_height = collidable_entity->m_height - collidable_entity->m_margin.y * 2;
 

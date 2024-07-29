@@ -69,6 +69,7 @@ void Hitbox::set_hitdata(const std::string& key)
 bool Hitbox::isColliding(const Hitbox* other) const
 {
     if (!other) return false;
+    if (!other->m_entity->m_is_active) return false;
 
     // Calculate this hitbox bounds
     float thisLeft = m_position.x - m_scale.x / 2.0f;
@@ -93,7 +94,7 @@ void Hitbox::checkCollisions(Hitbox* hurtboxes, int num_hurtboxes)
 {
     // Check for collisions with other hurtboxes and set them to visible
 	for (int i = 0; i < num_hurtboxes; ++i) {
-		if (this != &hurtboxes[i] && isColliding(&hurtboxes[i]) && m_active) {
+		if (this != &hurtboxes[i] && isColliding(&hurtboxes[i]) && m_active && &hurtboxes[i].m_entity->m_is_active) {
 			//hurtboxes[i].m_hidden = false;
 			//this->m_hidden = false;
 			hurtboxes[i].m_entity->deactivate(); // kill
@@ -127,7 +128,7 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
         m_model_matrix = glm::scale(m_model_matrix, m_scale);
 
         // Check for collision with the other hitbox
-        if (isColliding(otherHitbox)) {
+        if (isColliding(otherHitbox) && otherHitbox->m_entity->m_is_active && m_entity->m_is_active) {
             this->m_hidden = false;
             otherHitbox->m_hidden = false;
         }
