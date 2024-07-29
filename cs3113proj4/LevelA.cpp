@@ -90,6 +90,7 @@ void LevelA::initialise()
     int e_idle_animation[] = { 16, 17, 18, 19 };
     int e_attack_animation[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
     int e_death_animation[] = { 8, 9, 10, 11 };
+
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
 		m_game_state.enemies[i] = Entity(
@@ -105,8 +106,6 @@ void LevelA::initialise()
 			1.0f,                      // width
 			1.0f,                       // height
 			ENEMY,
-			//GUARD,
-			//WALKER,
 			TRAP,
 			IDLE
 		);
@@ -120,10 +119,16 @@ void LevelA::initialise()
 		m_game_state.enemies[i].switch_animation("idle", false); // start with idle
 
 
-		m_game_state.enemies[i].set_position(glm::vec3(6.0f - i, 6.0f - i, 0.0f));
+		//m_game_state.enemies[i].set_position(glm::vec3(6.0f - i, 6.0f - i, 0.0f));
+		m_game_state.enemies[i].set_position(glm::vec3(12.0f, 6.0f, 0.0f));
 		m_game_state.enemies[i].set_movement(glm::vec3(0.0f));
 		m_game_state.enemies[i].set_acceleration(glm::vec3(0.0f, -9.81f, 0.0f));
     }
+    // hard coded changes to enemies
+    m_game_state.enemies[1].set_ai_type(WALKER);
+	m_game_state.enemies[1].set_position(glm::vec3(2.0f, 6.0f, 0.0f));
+    m_game_state.enemies[2].set_ai_type(GUARD);
+	m_game_state.enemies[2].set_position(glm::vec3(1.0f, 6.0f, 0.0f));
 
     /* Create Hitboxes and Hurtboxes */
     GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
