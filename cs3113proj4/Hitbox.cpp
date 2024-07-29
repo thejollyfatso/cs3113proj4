@@ -130,8 +130,7 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
         m_model_matrix = glm::scale(m_model_matrix, m_scale);
 
         // Check for collision with the other hitbox
-        //if (isColliding(otherHitbox) && otherHitbox->m_entity->m_is_active && m_entity->m_is_active && m_active) {
-        if (isColliding(otherHitbox) && otherHitbox->m_entity->m_is_active && m_entity->m_is_active && !m_active) {
+        if (isColliding(otherHitbox) && otherHitbox->m_entity->m_is_active && m_entity->m_is_active && m_active) {
             //this->m_hidden = false;
             //otherHitbox->m_hidden = false;
             otherHitbox->m_entity->death();

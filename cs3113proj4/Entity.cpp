@@ -31,13 +31,12 @@ void Entity::ai_guard(Entity* player) {
         if (glm::distance(m_position, player->get_position()) < 3.0f) m_ai_state = WALKING;
         break;
     case WALKING:
-        //if (m_position.x > player->get_position().x) {
-        if (m_position.x > player->get_position().x + 1.6) {
+        if (m_position.x > player->get_position().x + 1.2) {
             m_movement = glm::vec3(-1.0f, 0.0f, 0.0f);
             switch_animation("run", false);
             face_left();
         }
-        else if (m_position.x < player->get_position().x - 1.6) {
+        else if (m_position.x < player->get_position().x - 1.2) {
             m_movement = glm::vec3(1.0f, 0.0f, 0.0f);
             switch_animation("run", false);
             face_right();
@@ -388,7 +387,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
             if (m_animation_index >= m_animation_frames) {
                 m_animation_index = 0; // Loop back to the first frame
                 m_animation_lock = false;
-				m_hitbox->set_active(false); // useless..?
+                m_hitbox->set_active(false);
                 if (!m_alive) deactivate();  // if animation has finished and no longer alive
             }
         }
