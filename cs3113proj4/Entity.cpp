@@ -74,20 +74,22 @@ void Entity::ai_guard(Entity* player) {
 
 void Entity::ai_trap(Entity *player) {
     switch (m_ai_state) {
-    case IDLE:
+    case ATTACKING:
+        attack();
         if (m_position.x > player->get_position().x + 1.2) {
             face_left();
-            m_ai_state = ATTACKING;
+            m_ai_state = IDLE;
         }
         else if (m_position.x < player->get_position().x - 1.2) {
             face_right();
-            m_ai_state = ATTACKING;
+            m_ai_state = IDLE;
         }
         break;
-    case ATTACKING:
-        attack();
-        m_ai_state = IDLE;
-        break;
+    case IDLE:
+        if (!(m_position.x > player->get_position().x + 1.2 || m_position.x < player->get_position().x - 1.2)) {
+            m_ai_state = ATTACKING;
+            break;
+        }
     }
 }
 
