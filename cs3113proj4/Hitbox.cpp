@@ -91,16 +91,13 @@ bool Hitbox::isColliding(const Hitbox* other) const
 void Hitbox::checkCollisions(Hitbox* hurtboxes, int num_hurtboxes)
 {
     // Check for collisions with other hurtboxes and set them to visible
-    if (m_active)
-    {
-        for (int i = 0; i < num_hurtboxes; ++i) {
-            if (this != &hurtboxes[i] && isColliding(&hurtboxes[i])) {
-                hurtboxes[i].m_hidden = false;
-                this->m_hidden = false;
-            }
-            else { this->m_hidden = true; hurtboxes[i].m_hidden = true; }
-        }
-    }
+	for (int i = 0; i < num_hurtboxes; ++i) {
+		if (this != &hurtboxes[i] && isColliding(&hurtboxes[i]) && m_active) {
+			hurtboxes[i].m_hidden = false;
+			this->m_hidden = false;
+		}
+		else { this->m_hidden = true; hurtboxes[i].m_hidden = true; }
+	}
 }
 
 // hurtbox updates which are passive awaiting hitbox check
