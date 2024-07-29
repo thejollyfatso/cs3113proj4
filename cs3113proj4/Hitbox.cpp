@@ -70,16 +70,16 @@ bool Hitbox::isColliding(const Hitbox* other) const
     if (!other) return false;
 
     // Calculate this hitbox bounds
-    float thisLeft = m_position.x + m_offset.x - m_scale.x / 2.0f;
-    float thisRight = m_position.x + m_offset.x + m_scale.x / 2.0f;
-    float thisTop = m_position.y + m_offset.y + m_scale.y / 2.0f;
-    float thisBottom = m_position.y + m_offset.y - m_scale.y / 2.0f;
+    float thisLeft = m_position.x - m_scale.x / 2.0f;
+    float thisRight = m_position.x + m_scale.x / 2.0f;
+    float thisTop = m_position.y + m_scale.y / 2.0f;
+    float thisBottom = m_position.y - m_scale.y / 2.0f;
 
     // Calculate other hitbox bounds
-    float otherLeft = other->m_position.x + other->m_offset.x - other->m_scale.x / 2.0f;
-    float otherRight = other->m_position.x + other->m_offset.x + other->m_scale.x / 2.0f;
-    float otherTop = other->m_position.y + other->m_offset.y + other->m_scale.y / 2.0f;
-    float otherBottom = other->m_position.y + other->m_offset.y - other->m_scale.y / 2.0f;
+    float otherLeft = other->m_position.x - other->m_scale.x / 2.0f;
+    float otherRight = other->m_position.x + other->m_scale.x / 2.0f;
+    float otherTop = other->m_position.y + other->m_scale.y / 2.0f;
+    float otherBottom = other->m_position.y - other->m_scale.y / 2.0f;
 
     // Check for overlap
     bool collisionX = thisLeft < otherRight && thisRight > otherLeft;

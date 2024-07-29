@@ -196,7 +196,7 @@ void LevelA::update(float delta_time)
         m_game_state.hurtboxes[i].update(delta_time);
     }
 	m_game_state.hitboxes[m_number_of_enemies].update(delta_time, m_game_state.hurtboxes, ENEMY_COUNT);
-	m_game_state.hurtboxes[m_number_of_enemies].update(delta_time); // update player hitbox (last index)
+	m_game_state.hurtboxes[m_number_of_enemies].update(delta_time); // update player hurtbox (last index)
 
     for (int i = 0; i < m_number_of_enemies; i++)
     {
