@@ -72,8 +72,8 @@ void LevelA::initialise()
 
     m_game_state.player->set_animation("run", run_animation, 8, 0, 0);
     m_game_state.player->set_animation("idle", idle_animation, 6, 0, 0);
-    m_game_state.player->set_animation("counter", counter_animation, 8, 4, 4);
-    m_game_state.player->set_animation("attack", attack_animation, 8, 4, 4);
+    m_game_state.player->set_animation("counter", counter_animation, 8, 4, 2);
+    m_game_state.player->set_animation("attack", attack_animation, 8, 4, 2);
     m_game_state.player->set_animation("death", death_animation, 7, 0, 0);
     m_game_state.player->set_animation("jump", jump_animation, 2, 0, 0);
     m_game_state.player->switch_animation("idle", true); // start with idle
@@ -114,7 +114,7 @@ void LevelA::initialise()
 		m_game_state.enemies[i].set_margin_x(glm::vec2(1.0f / 6.0f, 1.0f / 6.0f )); // trim sprite
 		m_game_state.enemies[i].set_animation("run", e_run_animation, 8, 0, 0);
 		m_game_state.enemies[i].set_animation("idle", e_idle_animation, 4, 0, 0);
-		m_game_state.enemies[i].set_animation("attack", e_attack_animation, 8, 2, 6);
+		m_game_state.enemies[i].set_animation("attack", e_attack_animation, 8, 6, 2);
 		m_game_state.enemies[i].set_animation("death", e_death_animation, 4, 0, 0);
 		m_game_state.enemies[i].switch_animation("idle", false); // start with idle
 

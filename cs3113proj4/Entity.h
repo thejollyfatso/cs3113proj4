@@ -126,7 +126,7 @@ public:
     void const attack();
     void const death();
 
-    void set_animation(std::string animation_name, int* indices, int frames, int active_frames, int active_start);
+    void set_animation(std::string animation_name, int* indices, int frames, int active_start, int active_frames );
     void switch_animation(std::string animation_name, bool locked);
 
     // ————— GETTERS ————— //

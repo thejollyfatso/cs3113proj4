@@ -177,7 +177,7 @@ void const Entity::death()
 }
 
 
-void Entity::set_animation(std::string animation_name, int* indices, int frames, int active_frames, int active_start) {
+void Entity::set_animation(std::string animation_name, int* indices, int frames, int active_start, int active_frames) {
     m_animations[animation_name] = { std::vector<int>(indices, indices + frames), active_frames, active_start };
 }
 
