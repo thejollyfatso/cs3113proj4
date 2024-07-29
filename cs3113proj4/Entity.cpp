@@ -88,6 +88,26 @@ Entity::Entity(GLuint texture_id, float speed, float width, float height, Entity
 
 Entity::~Entity() {}
 
+void Entity::face_right() 
+{ 
+    if (!m_face_forward)
+    {
+		m_scale.x *= -1; 
+		if (m_hurtbox) m_hurtbox->m_offset.x *= -1;
+    }
+	m_face_forward = true;
+}
+
+void Entity::face_left() 
+{ 
+    if (m_face_forward)
+    {
+        m_scale.x *= -1;
+		if (m_hurtbox) m_hurtbox->m_offset.x *= -1;
+    }
+	m_face_forward = false;
+}
+
 void const Entity::set_hitbox(Hitbox* hitbox) { m_hitbox = hitbox; }
 void const Entity::set_hurtbox(Hitbox* hurtbox) { m_hurtbox = hurtbox; }
 // helpers

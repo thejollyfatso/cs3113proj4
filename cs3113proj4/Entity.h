@@ -45,6 +45,7 @@ private:
               m_jumping_power;
     
     bool m_is_jumping;
+    bool m_face_forward = true; // right
 
     // ————— TEXTURES ————— //
     GLuint    m_texture_id;
@@ -112,8 +113,8 @@ public:
     
     void normalise_movement() { m_movement = glm::normalize(m_movement); }
 
-    void face_right() { if (m_scale.x < 0) m_scale.x *= -1; }
-    void face_left() { if (m_scale.x > 0) m_scale.x *= -1; }
+    void face_right();
+    void face_left();
 
     void move_left() { switch_animation("run", false);  m_movement.x = -1.0f; face_left(); }
     void move_right() { switch_animation("run", false);  m_movement.x = 1.0f;  face_right(); }

@@ -58,6 +58,7 @@ void Hitbox::set_hitdata(const std::string& key)
     if (hitdata != key_value_store.end()) {
         m_scale = hitdata->second.first;
         m_offset = hitdata->second.second;
+        if (!m_entity->m_face_forward) m_offset.x *= -1.0f;
     }
     else {
         m_scale = glm::vec3(1.0f);
