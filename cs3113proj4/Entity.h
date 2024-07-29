@@ -110,6 +110,7 @@ public:
 
     void ai_activate(Entity *player);
     void ai_walk();
+    void ai_walk(float l_bound, float r_bound);
     void ai_guard(Entity *player);
     
     void normalise_movement() { m_movement = glm::normalize(m_movement); }

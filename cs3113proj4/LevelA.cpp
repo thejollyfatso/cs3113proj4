@@ -105,7 +105,8 @@ void LevelA::initialise()
 			1.0f,                      // width
 			1.0f,                       // height
 			ENEMY,
-			GUARD,
+			//GUARD,
+			WALKER,
 			IDLE
 		);
 		m_game_state.enemies[i].set_scale(new_scale);
@@ -205,7 +206,6 @@ void LevelA::update(float delta_time)
 
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
-        //m_game_state.enemies[i].update(delta_time, m_game_state.player, NULL, NULL, m_game_state.map);
         m_game_state.enemies[i].update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     }
 

@@ -9,7 +9,8 @@
 void Entity::ai_activate(Entity* player) {
     switch (m_ai_type) {
     case WALKER:
-        ai_walk();
+        //ai_walk();
+        ai_walk(3.0f, 5.0f);
         break;
     case GUARD:
         ai_guard(player);
@@ -21,6 +22,20 @@ void Entity::ai_activate(Entity* player) {
 
 void Entity::ai_walk() {
     m_movement = glm::vec3(-1.0f, 0.0f, 0.0f);
+}
+
+void Entity::ai_walk(float l_bound, float r_bound) {
+    switch_animation("run", false); // this should not need to be called
+    if (m_position.x < l_bound)
+    {
+        if (!m_movement.x) m_movement.x = 1.0f;
+        move_right();
+    }
+    if (m_position.x > r_bound)
+    {
+        if (!m_movement.x) m_movement.x = -1.0f;
+        move_left();
+    }
 }
 
 void Entity::ai_guard(Entity* player) {
