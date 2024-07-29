@@ -96,6 +96,7 @@ void Hitbox::checkCollisions(Hitbox* hurtboxes, int num_hurtboxes)
             hurtboxes[i].m_hidden = false;
             this->m_hidden = false;
         }
+        else { this->m_hidden = true; hurtboxes[i].m_hidden = true; }
     }
 }
 
