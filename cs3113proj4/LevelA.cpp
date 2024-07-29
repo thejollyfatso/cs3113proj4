@@ -106,7 +106,8 @@ void LevelA::initialise()
 			1.0f,                       // height
 			ENEMY,
 			//GUARD,
-			WALKER,
+			//WALKER,
+			TRAP,
 			IDLE
 		);
 		m_game_state.enemies[i].set_scale(new_scale);
