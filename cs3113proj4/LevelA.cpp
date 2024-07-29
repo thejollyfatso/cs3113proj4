@@ -192,7 +192,7 @@ void LevelA::update(float delta_time)
     
     for (int i = 0; i < m_number_of_enemies; i++)
     {
-        m_game_state.hitboxes[i].update(delta_time, m_game_state.player->get_hitbox());
+        m_game_state.hitboxes[i].update(delta_time, m_game_state.player->get_hurtbox());
         m_game_state.hurtboxes[i].update(delta_time);
     }
 	m_game_state.hitboxes[m_number_of_enemies].update(delta_time, m_game_state.hurtboxes, ENEMY_COUNT);

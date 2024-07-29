@@ -94,7 +94,7 @@ void Hitbox::checkCollisions(Hitbox* hurtboxes, int num_hurtboxes)
     for (int i = 0; i < num_hurtboxes; ++i) {
         if (this != &hurtboxes[i] && isColliding(&hurtboxes[i])) {
             hurtboxes[i].m_hidden = false;
-            m_hidden = false;
+            this->m_hidden = false;
         }
     }
 }
