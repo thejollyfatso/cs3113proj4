@@ -94,8 +94,9 @@ void Hitbox::checkCollisions(Hitbox* hurtboxes, int num_hurtboxes)
     // Check for collisions with other hurtboxes and set them to visible
 	for (int i = 0; i < num_hurtboxes; ++i) {
 		if (this != &hurtboxes[i] && isColliding(&hurtboxes[i]) && m_active) {
-			hurtboxes[i].m_hidden = false;
-			this->m_hidden = false;
+			//hurtboxes[i].m_hidden = false;
+			//this->m_hidden = false;
+			hurtboxes[i].m_entity->deactivate(); // kill
 		}
 		else { this->m_hidden = true; hurtboxes[i].m_hidden = true; }
 	}
@@ -130,6 +131,7 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
             this->m_hidden = false;
             otherHitbox->m_hidden = false;
         }
+		else { this->m_hidden = true; otherHitbox->m_hidden = true; }
     }
 }
 

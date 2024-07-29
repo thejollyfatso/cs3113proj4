@@ -395,6 +395,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
 }
 
 void Entity::render(ShaderProgram* program) {
+    if (!m_is_active) return;
     program->set_model_matrix(m_model_matrix);
 
     if (m_animation_indices != NULL) {
