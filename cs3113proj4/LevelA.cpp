@@ -33,6 +33,7 @@ LevelA::~LevelA()
 
 void LevelA::initialise()
 {
+    m_font_texture_id = Utility::load_texture("assets/font1.png");
     GLuint map_texture_id = Utility::load_texture("assets/Fantasy Swamp Forest/Free/Terrain_and_Props.png");
     m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_DATA, map_texture_id, 1.0f, 20, 34);
     
@@ -207,6 +208,13 @@ void LevelA::update(float delta_time)
         //m_game_state.enemies[i].update(delta_time, m_game_state.player, NULL, NULL, m_game_state.map);
         m_game_state.enemies[i].update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     }
+
+    // count enemies
+    m_enemies_left = 0;
+	for (int i = 0; i < ENEMY_COUNT; i++)
+	{
+		if (m_game_state.enemies[i].is_alive()) m_enemies_left++;
+	}
 }
 
 
@@ -222,14 +230,8 @@ void LevelA::render(ShaderProgram *g_shader_program)
             m_game_state.enemies[i].render(g_shader_program);
     m_game_state.player->render(g_shader_program);
 
-    GLuint message_texture_id = Utility::load_texture("assets/font1.png");
-    int enemies_left = 0;
-	for (int i = 0; i < ENEMY_COUNT; i++)
-	{
-		if (m_game_state.enemies[i].is_alive()) enemies_left++;
-	}
-    if (!enemies_left)
-		Utility::draw_text(g_shader_program, message_texture_id, "You Win!", 0.5f, 0.05f,
+    if (!m_enemies_left)
+		Utility::draw_text(g_shader_program, m_font_texture_id, "You Win!", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-1.5f, 1.0f, 0.0f)); // position according to player
 			//glm::vec3(3.0f, -2.0f, 0.0f));
 }
