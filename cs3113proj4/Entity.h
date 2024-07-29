@@ -28,6 +28,7 @@ class Entity
 
 private:
     bool m_is_active = true;
+    bool m_alive = true;
     
     EntityType m_entity_type;
     AIType     m_ai_type;
@@ -121,6 +122,7 @@ public:
     
     void const jump() { switch_animation("jump", true);  m_is_jumping = true; }
     void const attack();
+    void const death();
 
     void set_animation(std::string animation_name, int* indices, int frames, int active_frames, int active_start);
     void switch_animation(std::string animation_name, bool locked);

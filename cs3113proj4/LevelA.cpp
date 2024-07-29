@@ -86,6 +86,7 @@ void LevelA::initialise()
     int e_run_animation[] = { 24, 25, 26, 27, 28, 29, 30, 31 };
     int e_idle_animation[] = { 16, 17, 18, 19 };
     int e_attack_animation[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+    int e_death_animation[] = { 8, 9, 10, 11 };
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
 		m_game_state.enemies[i] = Entity(
@@ -110,6 +111,7 @@ void LevelA::initialise()
 		m_game_state.enemies[i].set_animation("run", e_run_animation, 8, 0, 0);
 		m_game_state.enemies[i].set_animation("idle", e_idle_animation, 4, 0, 0);
 		m_game_state.enemies[i].set_animation("attack", e_attack_animation, 8, 6, 2);
+		m_game_state.enemies[i].set_animation("death", e_death_animation, 4, 0, 0);
 		m_game_state.enemies[i].switch_animation("idle", false); // start with idle
 
 

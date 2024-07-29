@@ -133,15 +133,20 @@ void const Entity::attack()
     set_hitdata_by_animation(); 
 }
 
+void const Entity::death() 
+{ 
+    m_alive = false;
+    switch_animation("death", true);  
+}
+
 
 void Entity::set_animation(std::string animation_name, int* indices, int frames, int active_frames, int active_start) {
     m_animations[animation_name] = { std::vector<int>(indices, indices + frames), active_frames, active_start };
 }
 
 void Entity::switch_animation(std::string animation_name, bool locked) {
-    // this should NOT go here this is for DEBUG
-    if (locked && m_current_animation != animation_name) { m_animation_index = 0;  m_current_animation = animation_name;  }
     if (!m_animation_lock) {
+        if (locked) m_animation_index = 0;
         m_animation_lock = locked;
         auto it = m_animations.find(animation_name);
         if (it != m_animations.end()) {
@@ -384,6 +389,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
                 m_animation_index = 0; // Loop back to the first frame
                 m_animation_lock = false;
 				m_hitbox->set_active(false); // useless..?
+                if (!m_alive) deactivate();  // if animation has finished and no longer alive
             }
         }
     }
