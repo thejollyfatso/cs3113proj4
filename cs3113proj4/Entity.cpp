@@ -10,7 +10,7 @@ void Entity::ai_activate(Entity* player) {
     switch (m_ai_type) {
     case WALKER:
         //ai_walk();
-        ai_walk(3.0f, 5.0f);
+        ai_walk(2.0f, 4.0f); // hardcode ew
         break;
     case GUARD:
         ai_guard(player);
@@ -28,12 +28,12 @@ void Entity::ai_walk() {
 
 void Entity::ai_walk(float l_bound, float r_bound) {
     switch_animation("run", false); // this should not need to be called
-    if (m_position.x < l_bound)
+    if (m_position.x <= l_bound)
     {
         if (!m_movement.x) m_movement.x = 1.0f;
         move_right();
     }
-    if (m_position.x > r_bound)
+    if (m_position.x >= r_bound)
     {
         if (!m_movement.x) m_movement.x = -1.0f;
         move_left();
