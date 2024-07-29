@@ -194,15 +194,15 @@ void LevelA::update(float delta_time)
 {
     m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     
-    for (int i = 0; i < m_number_of_enemies; i++)
+    for (int i = 0; i < ENEMY_COUNT; i++)
     {
         m_game_state.hitboxes[i].update(delta_time, m_game_state.player->get_hurtbox());
         m_game_state.hurtboxes[i].update(delta_time);
     }
-	m_game_state.hitboxes[m_number_of_enemies].update(delta_time, m_game_state.hurtboxes, ENEMY_COUNT);
-	m_game_state.hurtboxes[m_number_of_enemies].update(delta_time); // update player hurtbox (last index)
+	m_game_state.hitboxes[ENEMY_COUNT].update(delta_time, m_game_state.hurtboxes, ENEMY_COUNT);
+	m_game_state.hurtboxes[ENEMY_COUNT].update(delta_time); // update player hurtbox (last index)
 
-    for (int i = 0; i < m_number_of_enemies; i++)
+    for (int i = 0; i < ENEMY_COUNT; i++)
     {
         //m_game_state.enemies[i].update(delta_time, m_game_state.player, NULL, NULL, m_game_state.map);
         m_game_state.enemies[i].update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
@@ -213,12 +213,12 @@ void LevelA::update(float delta_time)
 void LevelA::render(ShaderProgram *g_shader_program)
 {
     m_game_state.map->render(g_shader_program);
-    for (int i = 0; i < m_number_of_enemies + 1; i++)
+    for (int i = 0; i < ENEMY_COUNT + 1; i++)
     {
         m_game_state.hitboxes[i].render(g_shader_program);
         m_game_state.hurtboxes[i].render(g_shader_program);
     }
-    for (int i = 0; i < m_number_of_enemies; i++)
+    for (int i = 0; i < ENEMY_COUNT; i++)
             m_game_state.enemies[i].render(g_shader_program);
     m_game_state.player->render(g_shader_program);
 }

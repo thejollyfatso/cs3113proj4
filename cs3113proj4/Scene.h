@@ -43,7 +43,7 @@ protected:
     
 public:
     // ————— ATTRIBUTES ————— //
-    int m_number_of_enemies = 3;
+    int m_number_of_enemies = 0;
     
     // ————— METHODS ————— //
     virtual void initialise() = 0;
