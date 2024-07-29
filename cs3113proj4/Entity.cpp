@@ -102,8 +102,8 @@ void const Entity::attack()
 }
 
 
-void Entity::set_animation(std::string animation_name, int* indices, int frames) {
-    m_animations[animation_name] = std::vector<int>(indices, indices + frames);
+void Entity::set_animation(std::string animation_name, int* indices, int frames, int active_frames, int active_start) {
+    m_animations[animation_name] = { std::vector<int>(indices, indices + frames), active_frames, active_start };
 }
 
 void Entity::switch_animation(std::string animation_name, bool locked) {
@@ -111,10 +111,14 @@ void Entity::switch_animation(std::string animation_name, bool locked) {
     if (locked) { m_animation_index = 0; }
     if (!m_animation_lock) {
         m_animation_lock = locked;
-        if (m_animations.find(animation_name) != m_animations.end()) {
+        auto it = m_animations.find(animation_name);
+        if (it != m_animations.end()) {
             m_current_animation = animation_name;
-            m_animation_indices = m_animations[animation_name].data();
-            m_animation_frames = m_animations[animation_name].size();
+
+            // Access the indices, active_frames, and active_start from the AnimationData
+            AnimationData& animData = it->second;
+            m_animation_indices = animData.indices.data();
+            m_animation_frames = animData.indices.size();
         }
     }
 }

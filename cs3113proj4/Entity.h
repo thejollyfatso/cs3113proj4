@@ -19,6 +19,13 @@ class Hitbox;
 class Entity
 {
     friend class Hitbox;
+
+    struct AnimationData {
+        std::vector<int> indices;
+        int active_frames;
+        int active_start;
+    };
+
 private:
     bool m_is_active = true;
     
@@ -52,7 +59,7 @@ private:
     int* m_animation_indices = nullptr;
     float m_animation_time = 0.0f;
 
-    std::map<std::string, std::vector<int>> m_animations; // Map of animations
+    std::map<std::string, AnimationData> m_animations; // Map of animations
     std::string m_current_animation; // Current animation name
 
     bool m_animation_lock = false; // Will be used to prevent animation cancelling
@@ -114,7 +121,7 @@ public:
     void const jump() { switch_animation("jump", true);  m_is_jumping = true; }
     void const attack();
 
-    void set_animation(std::string animation_name, int* indices, int frames);
+    void set_animation(std::string animation_name, int* indices, int frames, int active_frames, int active_start);
     void switch_animation(std::string animation_name, bool locked);
 
     // ————— GETTERS ————— //
