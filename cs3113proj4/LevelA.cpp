@@ -109,12 +109,12 @@ void LevelA::initialise()
 		m_game_state.enemies[i].set_animation("run", e_run_animation, 8, 0, 0);
 		m_game_state.enemies[i].set_animation("idle", e_idle_animation, 4, 0, 0);
 		m_game_state.enemies[i].switch_animation("idle", false); // start with idle
+
+
+		m_game_state.enemies[i].set_position(glm::vec3(6.0f - i, 6.0f - i, 0.0f));
+		m_game_state.enemies[i].set_movement(glm::vec3(0.0f));
+		m_game_state.enemies[i].set_acceleration(glm::vec3(0.0f, -9.81f, 0.0f));
     }
-
-
-    m_game_state.enemies[0].set_position(glm::vec3(8.0f, 6.0f, 0.0f));
-    m_game_state.enemies[0].set_movement(glm::vec3(0.0f));
-    m_game_state.enemies[0].set_acceleration(glm::vec3(0.0f, -9.81f, 0.0f));
 
     /* Create Hitboxes and Hurtboxes */
     GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
@@ -200,7 +200,8 @@ void LevelA::update(float delta_time)
 
     for (int i = 0; i < m_number_of_enemies; i++)
     {
-        m_game_state.enemies[i].update(delta_time, m_game_state.player, NULL, NULL, m_game_state.map);
+        //m_game_state.enemies[i].update(delta_time, m_game_state.player, NULL, NULL, m_game_state.map);
+        m_game_state.enemies[i].update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     }
 }
 
