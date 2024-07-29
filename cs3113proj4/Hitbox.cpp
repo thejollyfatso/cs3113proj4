@@ -99,7 +99,6 @@ void Hitbox::checkCollisions(Hitbox* hurtboxes, int num_hurtboxes)
 		if (this != &hurtboxes[i] && isColliding(&hurtboxes[i]) && m_active && &hurtboxes[i].m_entity->m_is_active) {
 			//hurtboxes[i].m_hidden = false;
 			//this->m_hidden = false;
-			//hurtboxes[i].m_entity->deactivate(); // kill
 			hurtboxes[i].m_entity->death(); // kill
 		}
 		else { this->m_hidden = true; hurtboxes[i].m_hidden = true; }

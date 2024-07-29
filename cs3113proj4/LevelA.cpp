@@ -221,4 +221,14 @@ void LevelA::render(ShaderProgram *g_shader_program)
     for (int i = 0; i < ENEMY_COUNT; i++)
             m_game_state.enemies[i].render(g_shader_program);
     m_game_state.player->render(g_shader_program);
+
+    GLuint message_texture_id = Utility::load_texture("assets/font1.png");
+    int enemies_left = 0;
+	for (int i = 0; i < ENEMY_COUNT; i++)
+	{
+		if (m_game_state.enemies[i].is_alive()) enemies_left++;
+	}
+    if (!enemies_left)
+		Utility::draw_text(g_shader_program, message_texture_id, "You Win!", 0.5f, 0.05f,
+			glm::vec3(3.0f, -2.0f, 0.0f));
 }

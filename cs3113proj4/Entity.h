@@ -144,6 +144,8 @@ public:
     bool      const get_collided_right() const { return m_collided_right; }
     bool      const get_collided_left() const { return m_collided_left; }
 
+    bool      const is_alive() const { return m_alive; }
+
     Hitbox* get_hitbox() const { return m_hitbox; }
     Hitbox* get_hurtbox() const { return m_hurtbox; }
     
