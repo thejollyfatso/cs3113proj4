@@ -26,7 +26,7 @@ unsigned int LEVEL_DATA[] =
     110, 0, 205, 207, 209, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     90, 0, 0, 0, 0, 0, 0, 207, 0, 0, 0, 0, 0, 0,
-    86, 87, 0, 0, 0, 0, 0, 0, 0, 25, 27, 28, 27, 50,
+    86, 0, 0, 0, 0, 0, 0, 0, 0, 25, 27, 28, 27, 50,
     106, 107, 27, 28, 27, 28, 27, 28, 27, 45, 85, 85, 85, 90,
     126, 127, 128, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 130
 };
@@ -136,6 +136,7 @@ void LevelA::initialise()
 		m_game_state.enemies[i].set_acceleration(glm::vec3(0.0f, -9.81f, 0.0f));
     }
     // hard coded changes to enemies
+	m_game_state.enemies[0].face_left();
     m_game_state.enemies[1].set_ai_type(WALKER);
 	m_game_state.enemies[1].set_position(glm::vec3(2.0f, 6.0f, 0.0f));
     m_game_state.enemies[2].set_ai_type(GUARD);
